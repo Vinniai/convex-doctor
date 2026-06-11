@@ -7,6 +7,7 @@ export const EMPTY_DEPENDENCY_INFO: DependencyInfo = {
   reactVersion: null,
   tailwindVersion: null,
   zodVersion: null,
+  convexVersion: null,
   framework: "unknown",
 };
 
@@ -45,10 +46,16 @@ export const extractDependencyInfo = (packageJson: PackageJson): DependencyInfo 
     "devDependencies",
     "peerDependencies",
   ]);
+  const convexVersion = pickConcreteVersion(packageJson, "convex", [
+    "dependencies",
+    "devDependencies",
+    "peerDependencies",
+  ]);
   return {
     reactVersion,
     tailwindVersion,
     zodVersion,
+    convexVersion,
     framework: detectFramework(allDependencies),
   };
 };

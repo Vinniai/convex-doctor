@@ -95,6 +95,13 @@ export const buildCapabilities = (project: ProjectInfo): ReadonlySet<string> => 
     if (project.zodMajorVersion !== null && project.zodMajorVersion >= 4) capabilities.add("zod:4");
   }
 
+  // Keyed off the `convex` dependency, not `framework` — a Convex app
+  // classifies as its web framework (`nextjs` / `vite` / …) yet still
+  // ships a Convex backend. Gates every `convex-*` rule bucket.
+  if (project.convexVersion !== null) {
+    capabilities.add("convex");
+  }
+
   if (project.isPreES2023Target) capabilities.add("pre-es2023");
 
   if (project.hasReactCompiler) capabilities.add("react-compiler");

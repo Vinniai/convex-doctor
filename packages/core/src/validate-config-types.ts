@@ -42,6 +42,7 @@ const BOOLEAN_FIELD_NAMES = [
   "verbose",
   "warnings",
   "customRulesOnly",
+  "reactRules",
   "share",
   "noScore",
   "respectInlineDisables",

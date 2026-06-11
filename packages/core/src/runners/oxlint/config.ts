@@ -1,9 +1,10 @@
 import * as fs from "node:fs";
 import reactDoctorPlugin, {
+  CONVEX_RULE_KEYS,
   REACT_COMPILER_RULES,
   REACT_DOCTOR_RULES,
 } from "oxlint-plugin-react-doctor";
-import type { OxlintRuleSeverity } from "oxlint-plugin-react-doctor";
+import type { OxlintRuleSeverity, Rule } from "oxlint-plugin-react-doctor";
 import type { ProjectInfo, RuleSeverityControls } from "../../types/index.js";
 import { resolveRuleSeverityOverride } from "../../resolve-rule-severity-override.js";
 import { COMPILER_CLEANUP_BUCKET, COMPILER_CLEANUP_RULE_KEYS } from "../../constants.js";
@@ -15,6 +16,15 @@ export interface OxlintConfigOptions {
   pluginPath: string;
   project: ProjectInfo;
   customRulesOnly?: boolean;
+  /**
+   * Re-enables the React-runtime rule families on a Convex project.
+   * Mirrors `ReactDoctorConfig.reactRules`: when the project has a
+   * `convex` dependency and this is not `true`, the scan is
+   * Convex-first — `convex-*` rules plus framework-agnostic rules
+   * only, with every React-scoped rule (and the React Compiler
+   * plugin) skipped. Ignored on non-Convex projects.
+   */
+  reactRules?: boolean;
   extendsPaths?: string[];
   ignoredTags?: ReadonlySet<string>;
   serverAuthFunctionNames?: ReadonlyArray<string>;
@@ -84,17 +94,48 @@ const buildUserPluginRules = (
   return enabled;
 };
 
+// A rule is "React-scoped" when it only makes sense on a React (or
+// React-framework) codebase: it belongs to a framework bucket, requires
+// a React/Preact capability, or applies React-flavored JSX semantics.
+// These are the rules the Convex-first mode turns off by default —
+// framework-agnostic rules (security, correctness, architecture,
+// js-performance, zod, …) keep running on the Convex backend code.
+const isReactScopedRule = (rule: Rule): boolean =>
+  rule.framework !== "global" ||
+  (rule.requires?.some(
+    (capability) =>
+      capability === "react" ||
+      capability.startsWith("react:") ||
+      capability === "react-compiler" ||
+      capability === "preact" ||
+      capability.startsWith("preact:") ||
+      capability === "pure-preact",
+  ) ??
+    false) ||
+  (rule.tags?.includes("react-jsx-only") ?? false);
+
 export const createOxlintConfig = ({
   pluginPath,
   project,
   customRulesOnly = false,
+  reactRules = false,
   extendsPaths = [],
   ignoredTags = new Set<string>(),
   serverAuthFunctionNames,
   severityControls,
   userPlugins = [],
 }: OxlintConfigOptions) => {
-  const reactHooksJsPlugin = resolveReactHooksJsPlugin(project.hasReactCompiler, customRulesOnly);
+  const capabilities = buildCapabilities(project);
+  // Convex-first mode: on a Convex project the default scan runs only
+  // the `convex-*` buckets plus framework-agnostic rules. The React
+  // rule families stay registered (per-rule `severityControls`
+  // overrides re-enable them individually) but are skipped wholesale
+  // unless the user opts back in via `reactRules: true`.
+  const convexFirst = capabilities.has("convex") && !reactRules;
+
+  const reactHooksJsPlugin = convexFirst
+    ? null
+    : resolveReactHooksJsPlugin(project.hasReactCompiler, customRulesOnly);
   const reactCompilerRules = reactHooksJsPlugin
     ? applyRuleSeverityControls(
         filterRulesToAvailable(
@@ -108,8 +149,6 @@ export const createOxlintConfig = ({
 
   const jsPlugins: JsPluginEntry[] = [];
   if (reactHooksJsPlugin) jsPlugins.push(reactHooksJsPlugin.entry);
-
-  const capabilities = buildCapabilities(project);
 
   const enabledReactDoctorRules: Record<string, OxlintRuleSeverity> = {};
   for (const registryEntry of REACT_DOCTOR_RULES) {
@@ -126,6 +165,17 @@ export const createOxlintConfig = ({
       { ruleKey: registryEntry.key, category: rule.category },
       severityControls,
     );
+    // Convex-first: skip React-scoped rules unless the user pinned this
+    // exact rule via `severityControls` (a per-rule override always
+    // wins, mirroring the `defaultEnabled: false` contract below).
+    if (
+      convexFirst &&
+      !CONVEX_RULE_KEYS.has(registryEntry.key) &&
+      isReactScopedRule(rule) &&
+      explicitSeverity === undefined
+    ) {
+      continue;
+    }
     // `defaultEnabled: false` opts a rule out of the default config —
     // it ships in the plugin but only activates when a user explicitly
     // turns it on via `severityControls`. Users can still get the rule

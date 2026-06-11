@@ -102,6 +102,15 @@ export const findReactInWorkspaces = (
         workspaceDirectory,
         workspacePackageJson,
       });
+      const convexVersion = resolveWorkspaceDependencyVersion({
+        concreteVersion: info.convexVersion,
+        packageName: "convex",
+        rootDirectory,
+        rootPackageJson: packageJson,
+        sections: ["dependencies", "devDependencies", "peerDependencies"],
+        workspaceDirectory,
+        workspacePackageJson,
+      });
 
       if (reactVersion && shouldReplaceReactVersion(result.reactVersion, reactVersion)) {
         result.reactVersion = reactVersion;
@@ -111,6 +120,9 @@ export const findReactInWorkspaces = (
       }
       if (zodVersion && !result.zodVersion) {
         result.zodVersion = zodVersion;
+      }
+      if (convexVersion && !result.convexVersion) {
+        result.convexVersion = convexVersion;
       }
       if (info.framework !== "unknown" && result.framework === "unknown") {
         result.framework = info.framework;

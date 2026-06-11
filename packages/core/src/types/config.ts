@@ -258,6 +258,22 @@ export interface ReactDoctorConfig {
    */
   failOn?: BlockingLevel;
   customRulesOnly?: boolean;
+  /**
+   * Re-enable the React/Next.js/React Native rule families on a Convex
+   * project. Default: `false` — when a `convex` dependency is detected,
+   * the scan is Convex-first: only the `convex-*` rule buckets plus the
+   * framework-agnostic JavaScript/TypeScript rules (security,
+   * correctness, architecture, …) run, and every React-runtime rule
+   * family (hooks, JSX, a11y, render performance, React Compiler) is
+   * skipped so the report stays focused on the Convex backend.
+   *
+   * Set to `true` to scan the React client code alongside the Convex
+   * backend with the full react-doctor rule set. Individual React rules
+   * can also be re-enabled one at a time via `rules` severity overrides
+   * without flipping this flag. Has no effect on projects without a
+   * `convex` dependency (they always get the full rule set).
+   */
+  reactRules?: boolean;
   share?: boolean;
   noScore?: boolean;
   /**

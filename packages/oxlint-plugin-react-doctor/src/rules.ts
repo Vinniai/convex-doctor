@@ -24,9 +24,20 @@ const toKeyedSeverity = (entries: ReadonlyArray<RegistryEntry>): ReadonlyArray<K
 const isRecommendedByDefault = (entry: RegistryEntry): boolean =>
   entry.rule.defaultEnabled !== false;
 
+// Convex rules live in `convex-*` buckets, which codegen marks with a
+// synthesized `"convex"` capability requirement. They register with
+// `framework: "global"` (Convex is a backend, not a React framework),
+// so this is the discriminator that keeps them out of the React
+// `recommended` preset and inside `CONVEX_RULES`.
+const isConvexRule = (entry: RegistryEntry): boolean =>
+  entry.rule.requires?.includes("convex") ?? false;
+
 const collectReactDoctorRulesByFramework = (frameworkName: RuleFramework) =>
   reactDoctorRules.filter(
-    (entry) => entry.rule.framework === frameworkName && isRecommendedByDefault(entry),
+    (entry) =>
+      entry.rule.framework === frameworkName &&
+      isRecommendedByDefault(entry) &&
+      !isConvexRule(entry),
   );
 
 const collectExternalRulesBySource = (source: string) =>
@@ -96,6 +107,14 @@ export const TANSTACK_QUERY_RULES = toRuleMap(
 );
 export const PREACT_RULES = toRuleMap(
   toKeyedSeverity(collectReactDoctorRulesByFramework("preact")),
+);
+export const CONVEX_RULES = toRuleMap(
+  toKeyedSeverity(
+    reactDoctorRules.filter((entry) => isConvexRule(entry) && isRecommendedByDefault(entry)),
+  ),
+);
+export const CONVEX_RULE_KEYS: ReadonlySet<string> = new Set(
+  reactDoctorRules.filter(isConvexRule).map((entry) => entry.key),
 );
 export const ALL_REACT_DOCTOR_RULES = toRuleMap(toKeyedSeverity(REACT_DOCTOR_RULES));
 export const ALL_REACT_DOCTOR_RULE_KEYS: ReadonlySet<string> = new Set(

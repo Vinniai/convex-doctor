@@ -43,12 +43,30 @@ const BUCKET_TO_FRAMEWORK = {
 const BUCKETS_REQUIRING_REACT = new Set([
   "a11y",
   "client",
+  "convex-react",
   "jotai",
   "performance",
   "react-builtins",
   "react-ui",
   "state-and-effects",
   "view-transitions",
+]);
+
+// Convex rule buckets. Every rule in these buckets gets a synthesized
+// `"convex"` capability requirement (merged with any rule-authored
+// `requires`, mirroring BUCKETS_REQUIRING_REACT) so they only activate
+// on projects that declare the `convex` package — keyed off the
+// dependency, not `framework`, because Convex apps classify as their
+// web framework (`nextjs` / `vite` / …) while still shipping a Convex
+// backend. `convex-react` additionally requires `"react"` (client-side
+// hook rules), via BUCKETS_REQUIRING_REACT above.
+const BUCKETS_REQUIRING_CONVEX = new Set([
+  "convex-db",
+  "convex-functions",
+  "convex-react",
+  "convex-schema",
+  "convex-security",
+  "convex-typescript",
 ]);
 
 // Bucket directory → behavioral tags merged onto every rule in that
@@ -59,6 +77,12 @@ const BUCKETS_REQUIRING_REACT = new Set([
 // authored tags layer on top (deduped at runtime), so a rule can both
 // inherit a bucket tag and carry its own.
 const BUCKET_TO_AUTO_TAGS = {
+  "convex-db": ["convex"],
+  "convex-functions": ["convex"],
+  "convex-react": ["convex"],
+  "convex-schema": ["convex"],
+  "convex-security": ["convex"],
+  "convex-typescript": ["convex"],
   "react-native": ["react-native"],
   server: ["server-action"],
 };
@@ -142,6 +166,12 @@ const BUCKET_TO_DEFAULT_CATEGORY = {
   architecture: "Architecture",
   "bundle-size": "Bundle Size",
   client: "Performance",
+  "convex-db": "Performance",
+  "convex-functions": "Correctness",
+  "convex-react": "Correctness",
+  "convex-schema": "Correctness",
+  "convex-security": "Security",
+  "convex-typescript": "Architecture",
   correctness: "Correctness",
   design: "Architecture",
   "js-performance": "Performance",
@@ -229,6 +259,7 @@ for (const bucket of fs.readdirSync(PLUGIN_RULES_ROOT, { withFileTypes: true }))
         .replace(/\.ts$/, ".js");
     const autoTags = BUCKET_TO_AUTO_TAGS[bucket.name] ?? [];
     const requiresReact = BUCKETS_REQUIRING_REACT.has(bucket.name);
+    const requiresConvex = BUCKETS_REQUIRING_CONVEX.has(bucket.name);
     const originallyExternal =
       !RULES_NOT_PORTED_FROM_EXTERNAL.has(ruleId) &&
       (BUCKETS_PORTED_FROM_EXTERNAL.has(bucket.name) ||
@@ -242,6 +273,7 @@ for (const bucket of fs.readdirSync(PLUGIN_RULES_ROOT, { withFileTypes: true }))
       severity,
       autoTags,
       requiresReact,
+      requiresConvex,
       originallyExternal,
     });
   }
@@ -284,17 +316,21 @@ const formatAutoTagsLine = (entry) => {
 // keeps that; the redundant `"react"` is harmless since the version gate
 // already implies React is present.
 const formatRequiresLine = (entry) => {
-  if (!entry.requiresReact) return "";
+  const baseRequires = [];
+  if (entry.requiresReact) baseRequires.push("react");
+  if (entry.requiresConvex) baseRequires.push("convex");
+  if (baseRequires.length === 0) return "";
+  const baseLiteral = baseRequires.map((capability) => `"${capability}"`).join(", ");
   // Match prettier's 100-char print width so `gen:check` and `format:check`
   // agree: emit the single-line form when it fits, else the wrapped form
   // prettier would otherwise rewrite it into (a few rules have long enough
   // identifiers — e.g. `noNoninteractiveElementToInteractiveRole` — to spill
   // past the limit).
-  const singleLine = `      requires: [...new Set(["react", ...(${entry.identifier}.requires ?? [])])],`;
+  const singleLine = `      requires: [...new Set([${baseLiteral}, ...(${entry.identifier}.requires ?? [])])],`;
   if (singleLine.length <= 100) return `${singleLine}\n`;
   return (
     `      requires: [\n` +
-    `        ...new Set(["react", ...(${entry.identifier}.requires ?? [])]),\n` +
+    `        ...new Set([${baseLiteral}, ...(${entry.identifier}.requires ?? [])]),\n` +
     `      ],\n`
   );
 };

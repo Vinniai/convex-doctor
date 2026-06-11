@@ -40,9 +40,17 @@ export const findDependencyInfoFromMonorepoRoot = (directory: string): Dependenc
         sections: ["dependencies", "devDependencies", "peerDependencies"],
       })
     : null;
+  const leafConvexDeclaration = leafPackageJson
+    ? getDependencyDeclaration({
+        packageJson: leafPackageJson,
+        packageName: "convex",
+        sections: ["dependencies", "devDependencies", "peerDependencies"],
+      })
+    : null;
   const shouldUseReactFallback = !leafReactDeclaration?.hasDeclaration;
   const shouldUseTailwindFallback = leafTailwindDeclaration?.hasDeclaration ?? true;
   const shouldUseZodFallback = leafZodDeclaration?.hasDeclaration ?? true;
+  const shouldUseConvexFallback = leafConvexDeclaration?.hasDeclaration ?? true;
   const reactCatalogVersion = shouldUseReactFallback
     ? resolveCatalogVersion(
         rootPackageJson,
@@ -67,6 +75,14 @@ export const findDependencyInfoFromMonorepoRoot = (directory: string): Dependenc
         leafZodDeclaration?.catalogReference,
       )
     : null;
+  const convexCatalogVersion = shouldUseConvexFallback
+    ? resolveCatalogVersion(
+        rootPackageJson,
+        "convex",
+        monorepoRoot,
+        leafConvexDeclaration?.catalogReference,
+      )
+    : null;
   const workspaceInfo = findReactInWorkspaces(monorepoRoot, rootPackageJson);
 
   return {
@@ -78,6 +94,9 @@ export const findDependencyInfoFromMonorepoRoot = (directory: string): Dependenc
       : null,
     zodVersion: shouldUseZodFallback
       ? (zodCatalogVersion ?? rootInfo.zodVersion ?? workspaceInfo.zodVersion)
+      : null,
+    convexVersion: shouldUseConvexFallback
+      ? (convexCatalogVersion ?? rootInfo.convexVersion ?? workspaceInfo.convexVersion)
       : null,
     framework: rootInfo.framework !== "unknown" ? rootInfo.framework : workspaceInfo.framework,
   };

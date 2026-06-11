@@ -19,6 +19,16 @@ export interface ProjectInfo {
   zodVersion: string | null;
   /** Parsed major from `zodVersion`, or `null` when absent/unparseable. Mirrors `reactMajorVersion`. */
   zodMajorVersion: number | null;
+  /**
+   * The declared `convex` package version spec, or `null` when Convex isn't a
+   * dependency. Doubles as convex-doctor's "is this a Convex project?" signal
+   * (`convexVersion !== null`). Drives the `convex` capability in
+   * `buildCapabilities`, which gates every `convex-*` rule bucket — keyed off
+   * the dependency rather than `framework` because Convex apps classify as
+   * their web framework (`nextjs` / `vite` / …) for build-tool reasons while
+   * still shipping a Convex backend.
+   */
+  convexVersion: string | null;
   framework: Framework;
   hasTypeScript: boolean;
   hasReactCompiler: boolean;
@@ -131,6 +141,7 @@ export interface DependencyInfo {
   reactVersion: string | null;
   tailwindVersion: string | null;
   zodVersion: string | null;
+  convexVersion: string | null;
   framework: Framework;
 }
 

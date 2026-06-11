@@ -91,6 +91,7 @@ const discoverProjectWithoutPackageJson = (directory: string): ProjectInfo => {
     tailwindVersion: null,
     zodVersion: null,
     zodMajorVersion: null,
+    convexVersion: null,
     framework: "unknown",
     hasTypeScript: hasOwnTsConfig,
     hasReactCompiler: false,
@@ -121,7 +122,8 @@ export const discoverProject = (directory: string): ProjectInfo => {
   }
 
   const packageJson = readPackageJson(packageJsonPath);
-  let { reactVersion, tailwindVersion, zodVersion, framework } = extractDependencyInfo(packageJson);
+  let { reactVersion, tailwindVersion, zodVersion, convexVersion, framework } =
+    extractDependencyInfo(packageJson);
 
   const reactDeclaration = getDependencyDeclaration({
     packageJson,
@@ -136,6 +138,11 @@ export const discoverProject = (directory: string): ProjectInfo => {
   const zodDeclaration = getDependencyDeclaration({
     packageJson,
     packageName: "zod",
+    sections: ["dependencies", "devDependencies", "peerDependencies"],
+  });
+  const convexDeclaration = getDependencyDeclaration({
+    packageJson,
+    packageName: "convex",
     sections: ["dependencies", "devDependencies", "peerDependencies"],
   });
 
@@ -163,6 +170,15 @@ export const discoverProject = (directory: string): ProjectInfo => {
       "zod",
       directory,
       zodDeclaration.catalogReference,
+    );
+  }
+
+  if (!convexVersion && convexDeclaration.hasDeclaration) {
+    convexVersion = resolveCatalogVersion(
+      packageJson,
+      "convex",
+      directory,
+      convexDeclaration.catalogReference,
     );
   }
 
@@ -199,6 +215,14 @@ export const discoverProject = (directory: string): ProjectInfo => {
             zodDeclaration.catalogReference,
           );
         }
+        if (!convexVersion && convexDeclaration.hasDeclaration) {
+          convexVersion = resolveCatalogVersion(
+            rootPackageJson,
+            "convex",
+            monorepoRoot,
+            convexDeclaration.catalogReference,
+          );
+        }
       }
     }
   }
@@ -213,6 +237,9 @@ export const discoverProject = (directory: string): ProjectInfo => {
     }
     if (!zodVersion && workspaceInfo.zodVersion) {
       zodVersion = workspaceInfo.zodVersion;
+    }
+    if (!convexVersion && workspaceInfo.convexVersion) {
+      convexVersion = workspaceInfo.convexVersion;
     }
     if (framework === "unknown" && workspaceInfo.framework !== "unknown") {
       framework = workspaceInfo.framework;
@@ -229,6 +256,9 @@ export const discoverProject = (directory: string): ProjectInfo => {
     }
     if (!zodVersion) {
       zodVersion = monorepoInfo.zodVersion;
+    }
+    if (!convexVersion) {
+      convexVersion = monorepoInfo.convexVersion;
     }
     if (framework === "unknown") {
       framework = monorepoInfo.framework;
@@ -247,6 +277,13 @@ export const discoverProject = (directory: string): ProjectInfo => {
   }
   if (!zodVersion && zodDeclaration.version && !isCatalogReference(zodDeclaration.version)) {
     zodVersion = zodDeclaration.version;
+  }
+  if (
+    !convexVersion &&
+    convexDeclaration.version &&
+    !isCatalogReference(convexDeclaration.version)
+  ) {
+    convexVersion = convexDeclaration.version;
   }
 
   const projectName = packageJson.name ?? path.basename(directory);
@@ -308,6 +345,7 @@ export const discoverProject = (directory: string): ProjectInfo => {
     tailwindVersion,
     zodVersion,
     zodMajorVersion: parseZodMajor(zodVersion),
+    convexVersion,
     framework,
     hasTypeScript,
     hasReactCompiler: detectReactCompiler(directory, packageJson),

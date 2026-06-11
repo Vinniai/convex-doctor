@@ -169,6 +169,7 @@ export const runOxlint = async (options: RunOxlintOptions): Promise<Diagnostic[]
       pluginPath,
       project,
       customRulesOnly,
+      reactRules: userConfig?.reactRules === true,
       extendsPaths: extendsForThisAttempt,
       ignoredTags,
       serverAuthFunctionNames,

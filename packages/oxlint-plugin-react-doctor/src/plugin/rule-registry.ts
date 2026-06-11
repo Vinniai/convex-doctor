@@ -29,6 +29,7 @@ import { clickEventsHaveKeyEvents } from "./rules/a11y/click-events-have-key-eve
 import { clientLocalstorageNoVersion } from "./rules/client/client-localstorage-no-version.js";
 import { clientPassiveEventListeners } from "./rules/client/client-passive-event-listeners.js";
 import { controlHasAssociatedLabel } from "./rules/a11y/control-has-associated-label.js";
+import { convexNoCtxDbInAction } from "./rules/convex-functions/convex-no-ctx-db-in-action.js";
 import { noEmDashInJsxText } from "./rules/react-ui/no-em-dash-in-jsx-text.js";
 import { noRedundantPaddingAxes } from "./rules/react-ui/no-redundant-padding-axes.js";
 import { noRedundantSizeAxes } from "./rules/react-ui/no-redundant-size-axes.js";
@@ -595,6 +596,19 @@ export const reactDoctorRules = [
       framework: "global",
       category: "Accessibility",
       requires: [...new Set(["react", ...(controlHasAssociatedLabel.requires ?? [])])],
+    },
+  },
+  {
+    key: "react-doctor/convex-no-ctx-db-in-action",
+    id: "convex-no-ctx-db-in-action",
+    source: "react-doctor",
+    originallyExternal: false,
+    rule: {
+      ...convexNoCtxDbInAction,
+      framework: "global",
+      category: "Bugs",
+      tags: [...new Set(["convex", ...(convexNoCtxDbInAction.tags ?? [])])],
+      requires: [...new Set(["convex", ...(convexNoCtxDbInAction.requires ?? [])])],
     },
   },
   {
