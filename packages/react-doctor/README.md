@@ -102,8 +102,10 @@ pnpm example:nextjs
 Rules live in `packages/oxlint-plugin-react-doctor/src/plugin/rules/convex-*/`,
 one file per rule with a colocated test; run `pnpm gen` there after adding one.
 
-Releasing: `pnpm build`, then `pnpm publish --access public --no-git-checks` in
-`packages/oxlint-plugin-react-doctor` first, then in `packages/react-doctor`.
+Releasing: bump both package versions, then either run the **Release to npm**
+GitHub Action (Actions tab → needs the `NPM_TOKEN` repo secret), or locally
+`npm login` once and run `pnpm release` (builds, audits declared deps, then
+publishes the plugin followed by the CLI).
 
 ## Credit & license
 

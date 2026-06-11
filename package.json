@@ -23,13 +23,14 @@
     "check": "vp check",
     "changeset": "changeset",
     "version": "changeset version",
-    "release": "pnpm build && pnpm check:published-deps && node scripts/sentry-sourcemaps.mjs && changeset publish",
+    "release": "pnpm build && pnpm check:published-deps && pnpm release:npm",
     "check:published-deps": "node --experimental-strip-types --no-warnings scripts/check-published-deps.ts",
     "smoke:json-report": "node --experimental-strip-types --no-warnings scripts/smoke-json-report.ts",
     "smoke:packed-cli-install": "node --experimental-strip-types --no-warnings scripts/smoke-packed-cli-install.ts",
     "smoke:tty-prompt": "python3 scripts/smoke-tty-prompt.py",
     "build:schema": "node --experimental-strip-types --no-warnings scripts/generate-config-schema.ts",
-    "example:nextjs": "node packages/react-doctor/bin/react-doctor.js examples/convex-nextjs --verbose"
+    "example:nextjs": "node packages/react-doctor/bin/react-doctor.js examples/convex-nextjs --verbose",
+    "release:npm": "pnpm -C packages/oxlint-plugin-react-doctor publish --access public --no-git-checks && pnpm -C packages/react-doctor publish --access public --no-git-checks"
   },
   "devDependencies": {
     "@changesets/changelog-github": "^0.7.0",
