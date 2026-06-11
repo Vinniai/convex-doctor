@@ -43,6 +43,13 @@ export interface BuildRuntimeLayersInput {
    */
   readonly shouldComputeScore: boolean;
   /**
+   * Compute the score locally instead of via the hosted API
+   * (`--local-score` / `localScore: true`). Wins over
+   * `shouldComputeScore`; the run makes no score-related network
+   * calls and uploads no diagnostics.
+   */
+  readonly shouldComputeScoreLocally?: boolean;
+  /**
    * Whether the lint + dead-code spinners should render on stderr.
    * Set `false` for `--score-only`, `--silent`, or runs that skip
    * lint entirely — the orchestrator's `Progress` lifecycle becomes
@@ -103,7 +110,11 @@ const buildSpinnerProgressHandle = (text: string): ProgressHandle => {
 export const buildRuntimeLayers = (input: BuildRuntimeLayersInput) => {
   const linterLayer = input.shouldSkipLint ? Linter.layerOf([]) : Linter.layerOxlint;
   const deadCodeLayer = input.shouldRunDeadCode ? DeadCode.layerNode : DeadCode.layerOf([]);
-  const scoreLayer = input.shouldComputeScore ? Score.layerHttp : Score.layerOf(null);
+  const scoreLayer = input.shouldComputeScoreLocally
+    ? Score.layerLocal
+    : input.shouldComputeScore
+      ? Score.layerHttp
+      : Score.layerOf(null);
   // Socket.dev supply-chain score gate runs by default (the keyless HTTP
   // layer); a no-op empty layer only when the user explicitly opts out via
   // `supplyChain.enabled: false`.

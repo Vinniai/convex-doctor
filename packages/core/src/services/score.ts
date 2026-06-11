@@ -3,6 +3,7 @@ import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import type { Diagnostic, ScoreResult } from "../types/index.js";
 import { calculateScore, type ScoreRequestMetadata } from "../calculate-score.js";
+import { computeLocalScore } from "../compute-local-score.js";
 
 interface ComputeInput {
   readonly diagnostics: ReadonlyArray<Diagnostic>;
@@ -50,4 +51,17 @@ export class Score extends Context.Service<
         compute: () => Effect.succeed(result),
       }),
     );
+
+  /**
+   * Fully offline scoring (`--local-score` / `localScore: true`):
+   * deterministic severity-weighted density formula, no network and no
+   * diagnostic upload. See `computeLocalScore` for the model.
+   */
+  static readonly layerLocal = Layer.succeed(
+    Score,
+    Score.of({
+      compute: (input: ComputeInput) =>
+        Effect.succeed(computeLocalScore(input.diagnostics, input.metadata?.sourceFileCount)),
+    }),
+  );
 }

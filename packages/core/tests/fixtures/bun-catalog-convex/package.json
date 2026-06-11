@@ -1,0 +1,10 @@
+{
+  "name": "bun-catalog-convex",
+  "private": true,
+  "workspaces": [
+    "apps/*"
+  ],
+  "catalog": {
+    "convex": "^1.35.1"
+  }
+}

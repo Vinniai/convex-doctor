@@ -487,7 +487,7 @@ describe("issue #141: oxlint config must not reference unloaded plugins", () => 
 
   it("ships the 8 ported `you-might-not-need-an-effect` rules as react-doctor rules", () => {
     // After the native port (#187 follow-up), the previously-external
-    // `effect/*` rule surface lives inside `oxlint-plugin-react-doctor`
+    // `effect/*` rule surface lives inside `oxlint-plugin-react-convex-doctor`
     // as plain `react-doctor/*` global rules. No JS plugin entry, no
     // separate `effect/` namespace, no optional peer dependency.
     const config = createOxlintConfig({
@@ -671,7 +671,7 @@ describe("issue #141: oxlint config must not reference unloaded plugins", () => 
   });
 
   // Bugbot #fa3d54f2: `RECOMMENDED_RULES` / `NEXTJS_RULES` / etc. (the
-  // ESLint flat-config presets exported by `oxlint-plugin-react-doctor`
+  // ESLint flat-config presets exported by `oxlint-plugin-react-convex-doctor`
   // and consumed by `eslint-plugin-react-doctor`) used to include
   // every `framework: global` rule regardless of `defaultEnabled`. The
   // oxlint config builder honored the flag but the ESLint presets
@@ -679,7 +679,7 @@ describe("issue #141: oxlint config must not reference unloaded plugins", () => 
   // silently get every default-disabled rule. Regression test: confirm
   // none of the default-disabled rules leak into the recommended set.
   it("RECOMMENDED_RULES (ESLint preset) honors `defaultEnabled: false`", async () => {
-    const pluginModule = await import("oxlint-plugin-react-doctor");
+    const pluginModule = await import("oxlint-plugin-react-convex-doctor");
     const recommendedRuleKeys = new Set(Object.keys(pluginModule.RECOMMENDED_RULES));
     const defaultDisabledRules = [
       "react-doctor/react-in-jsx-scope",

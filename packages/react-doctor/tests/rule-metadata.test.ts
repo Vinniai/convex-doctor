@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vite-plus/test";
 import { DIAGNOSTIC_CATEGORY_BUCKETS } from "@react-doctor/core";
-import reactDoctorPlugin from "oxlint-plugin-react-doctor";
+import reactDoctorPlugin from "oxlint-plugin-react-convex-doctor";
 
 // Executable spec for the rule-copy conventions introduced when every
 // rule gained a human `title` and its messages were rewritten to plain,

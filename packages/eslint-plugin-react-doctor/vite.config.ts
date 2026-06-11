@@ -13,7 +13,7 @@ export default defineConfig({
   pack: [
     {
       entry: { index: "./src/index.ts" },
-      deps: { neverBundle: ["oxlint-plugin-react-doctor"] },
+      deps: { neverBundle: ["oxlint-plugin-react-convex-doctor"] },
       dts: true,
       target: "node20",
       platform: "node",

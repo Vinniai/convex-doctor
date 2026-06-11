@@ -17,7 +17,7 @@ export const convexNoCtxDbInAction = defineRule<Rule>({
   title: "Database accessed from an action",
   severity: "error",
   recommendation:
-    "Read and write through `ctx.runQuery` / `ctx.runMutation` calling an internal function instead — actions have no direct database access. See https://docs.convex.dev/functions/actions#action-context",
+    "Read and write through `ctx.runQuery` / `ctx.runMutation` calling an internal function instead, actions have no direct database access. See https://docs.convex.dev/functions/actions#action-context",
   create: (context: RuleContext) => ({
     // `ctx.db.…` member access anywhere inside an action handler
     // (including nested closures like `.map(async (id) => ctx.db.get(id))`).

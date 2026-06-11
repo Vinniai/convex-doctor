@@ -16,6 +16,7 @@ const ROOT_FLAG_SPEC: CliFlagSpec = {
     "--json",
     "--json-compact",
     "--lint",
+    "--local-score",
     "--no-color",
     "--no-dead-code",
     "--no-lint",

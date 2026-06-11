@@ -1,5 +1,5 @@
 import * as path from "node:path";
-import reactDoctorPlugin from "oxlint-plugin-react-doctor";
+import reactDoctorPlugin from "oxlint-plugin-react-convex-doctor";
 import type {
   CleanedDiagnostic,
   Diagnostic,

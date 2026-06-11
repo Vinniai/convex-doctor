@@ -13,6 +13,7 @@ const buildProject = (overrides: Partial<ProjectInfo> = {}): ProjectInfo => ({
   tailwindVersion: null,
   zodVersion: null,
   zodMajorVersion: null,
+  convexVersion: null,
   framework: "unknown",
   hasTypeScript: true,
   hasReactCompiler: true,

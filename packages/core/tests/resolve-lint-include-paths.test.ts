@@ -15,6 +15,7 @@ const nextProject = (rootDirectory: string): ProjectInfo => ({
   tailwindVersion: null,
   zodVersion: null,
   zodMajorVersion: null,
+  convexVersion: null,
   framework: "nextjs",
   hasTypeScript: true,
   hasReactCompiler: false,

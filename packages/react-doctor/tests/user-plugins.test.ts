@@ -12,7 +12,7 @@ afterAll(() => {
 });
 
 // User plugin source — mirrors the oxlint plugin contract documented
-// in `oxlint-plugin-react-doctor`'s `RulePlugin` type:
+// in `oxlint-plugin-react-convex-doctor`'s `RulePlugin` type:
 //   { meta: { name }, rules: Record<ruleName, { create(context) => visitors }> }
 // Visitor walks every JSX text child and flags occurrences of "FORBIDDEN".
 const FORBIDDEN_WORD_PLUGIN = `

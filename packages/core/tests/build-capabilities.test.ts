@@ -10,6 +10,7 @@ const baseProject: ProjectInfo = {
   tailwindVersion: null,
   zodVersion: null,
   zodMajorVersion: null,
+  convexVersion: null,
   framework: "vite",
   hasTypeScript: true,
   hasReactCompiler: false,
@@ -193,6 +194,7 @@ describe("buildCapabilities", () => {
       ...baseProject,
       zodVersion: "workspace:*",
       zodMajorVersion: null,
+      convexVersion: null,
     });
     expect(capabilities.has("zod")).toBe(true);
     expect(capabilities.has("zod:4")).toBe(false);

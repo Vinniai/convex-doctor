@@ -185,7 +185,11 @@ export const discoverProject = (directory: string): ProjectInfo => {
   // HACK: keep the monorepo-root catalog read cheap (one package.json plus
   // pnpm-workspace catalogs). The expensive workspace walks below still key
   // off React/framework misses; if we walk anyway, they can fill Zod too.
-  if (!reactVersion || !tailwindVersion || !zodVersion) {
+  // `convexVersion` participates in the gate directly: an app workspace
+  // commonly pins react/tailwind/zod concretely while `convex` stays
+  // catalog-backed, and without this the root-catalog read never runs and
+  // Convex detection silently fails for that workspace.
+  if (!reactVersion || !tailwindVersion || !zodVersion || !convexVersion) {
     const monorepoRoot = findMonorepoRoot(directory);
     if (monorepoRoot) {
       const monorepoPackageJsonPath = path.join(monorepoRoot, "package.json");

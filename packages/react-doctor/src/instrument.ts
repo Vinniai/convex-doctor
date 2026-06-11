@@ -20,10 +20,21 @@ let isInitialized = false;
 let resolvedTracesSampleRate = 0;
 
 const shouldEnableSentry = (): boolean => {
+  // Fork policy: crash reporting is OPT-IN. The upstream Sentry DSN
+  // belongs to react-doctor's maintainers; never phone home unless the
+  // operator explicitly enables it.
+  if (process.env.REACT_DOCTOR_TELEMETRY !== "1") return false;
   // `--no-score` (and its `--no-telemetry` alias) opts out of crash
-  // reporting. Read from raw argv because Sentry initializes before
+  // reporting; `--local-score` promises a fully offline run, so it
+  // opts out too. Read from raw argv because Sentry initializes before
   // Commander parses.
-  if (process.argv.includes("--no-score") || process.argv.includes("--no-telemetry")) return false;
+  if (
+    process.argv.includes("--no-score") ||
+    process.argv.includes("--no-telemetry") ||
+    process.argv.includes("--local-score")
+  ) {
+    return false;
+  }
   // Never phone home from this repo's own test runs (the e2e suite
   // spawns the built CLI as a subprocess, which inherits VITEST).
   if (process.env.VITEST || process.env.NODE_ENV === "test") return false;

@@ -135,6 +135,13 @@ export interface InspectOptions {
   scoreOnly?: boolean;
   noScore?: boolean;
   /**
+   * Compute the score locally (severity-weighted density formula)
+   * instead of calling the hosted score API. Fully offline: no
+   * diagnostics leave the machine and no share URL is printed. Wins
+   * over the hosted path; `noScore` still wins over both.
+   */
+  localScore?: boolean;
+  /**
    * Marks the run as CI-originated. Suppresses the share URL in the
    * printed summary; does not imply `--no-score`.
    */

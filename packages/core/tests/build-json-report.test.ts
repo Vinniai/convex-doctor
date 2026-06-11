@@ -10,6 +10,7 @@ const projectInfo: ProjectInfo = {
   tailwindVersion: null,
   zodVersion: null,
   zodMajorVersion: null,
+  convexVersion: null,
   framework: "nextjs",
   hasTypeScript: true,
   hasReactCompiler: false,

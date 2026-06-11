@@ -3,8 +3,8 @@ import reactDoctorPlugin, {
   CONVEX_RULE_KEYS,
   REACT_COMPILER_RULES,
   REACT_DOCTOR_RULES,
-} from "oxlint-plugin-react-doctor";
-import type { OxlintRuleSeverity, Rule } from "oxlint-plugin-react-doctor";
+} from "oxlint-plugin-react-convex-doctor";
+import type { OxlintRuleSeverity, Rule } from "oxlint-plugin-react-convex-doctor";
 import type { ProjectInfo, RuleSeverityControls } from "../../types/index.js";
 import { resolveRuleSeverityOverride } from "../../resolve-rule-severity-override.js";
 import { COMPILER_CLEANUP_BUCKET, COMPILER_CLEANUP_RULE_KEYS } from "../../constants.js";
@@ -114,6 +114,62 @@ const isReactScopedRule = (rule: Rule): boolean =>
     false) ||
   (rule.tags?.includes("react-jsx-only") ?? false);
 
+// Client-presentation rules that live in framework-agnostic buckets (no
+// `react` capability gate — they key off JSX/CSS shapes that simply never
+// match backend code) yet read unmistakably as "React rules" in a
+// Convex-first report: JSX correctness, CSS/design polish, and React
+// Server Component / server-action checks. `isReactScopedRule` can't see
+// them (no metadata marker), so Convex-first mode suppresses them by id.
+// Deliberately NOT listed: the generic `js-*`/`async-*` performance rules,
+// `no-eval`, secrets, zod, and `server-sequential-independent-await` —
+// those genuinely apply to Convex function code. Per-rule severity
+// overrides (and `reactRules: true`) re-enable any of these.
+const CONVEX_FIRST_SUPPRESSED_RULE_IDS: ReadonlySet<string> = new Set([
+  // JSX / component correctness & structure
+  "html-no-invalid-paragraph-child",
+  "html-no-invalid-table-nesting",
+  "html-no-nested-interactive",
+  "no-array-index-as-key",
+  "no-generic-handler-names",
+  "no-jsx-element-type",
+  "no-polymorphic-children",
+  "no-prevent-default",
+  "no-random-key",
+  "no-render-in-render",
+  "no-render-prop-children",
+  "no-uncontrolled-input",
+  "no-undeferred-third-party",
+  "prefer-module-scope-pure-function",
+  "prefer-module-scope-static-value",
+  "react-compiler-no-manual-memoization",
+  "rendering-conditional-render",
+  "rendering-svg-precision",
+  "use-lazy-motion",
+  // CSS / visual design polish
+  "no-dark-mode-glow",
+  "no-disabled-zoom",
+  "no-gradient-text",
+  "no-gray-on-colored-background",
+  "no-inline-bounce-easing",
+  "no-justified-text",
+  "no-layout-transition-inline",
+  "no-long-transition-duration",
+  "no-outline-none",
+  "no-pure-black-background",
+  "no-side-tab-border",
+  "no-tiny-text",
+  "no-wide-letter-spacing",
+  "no-z-index-9999",
+  // React Server Components / server actions
+  "server-after-nonblocking",
+  "server-auth-actions",
+  "server-cache-with-object-literal",
+  "server-dedup-props",
+  "server-fetch-without-revalidate",
+  "server-hoist-static-io",
+  "server-no-mutable-module-state",
+]);
+
 export const createOxlintConfig = ({
   pluginPath,
   project,
@@ -171,7 +227,7 @@ export const createOxlintConfig = ({
     if (
       convexFirst &&
       !CONVEX_RULE_KEYS.has(registryEntry.key) &&
-      isReactScopedRule(rule) &&
+      (isReactScopedRule(rule) || CONVEX_FIRST_SUPPRESSED_RULE_IDS.has(registryEntry.id)) &&
       explicitSeverity === undefined
     ) {
       continue;

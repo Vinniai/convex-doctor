@@ -1,4 +1,4 @@
-import reactDoctorPlugin from "oxlint-plugin-react-doctor";
+import reactDoctorPlugin from "oxlint-plugin-react-convex-doctor";
 import type { Diagnostic } from "../types/index.js";
 
 /**
@@ -16,4 +16,9 @@ import type { Diagnostic } from "../types/index.js";
  * a 404. Gate the directive on this predicate.
  */
 export const hasPublishedFixRecipe = (diagnostic: Pick<Diagnostic, "plugin" | "rule">): boolean =>
-  diagnostic.plugin === "react-doctor" && Object.hasOwn(reactDoctorPlugin.rules, diagnostic.rule);
+  diagnostic.plugin === "react-doctor" &&
+  // The fork-authored `convex-*` rules have no recipe page on
+  // react.doctor — their full fix guidance (with docs.convex.dev links)
+  // already ships in the recommendation text, so don't advertise a 404.
+  !diagnostic.rule.startsWith("convex-") &&
+  Object.hasOwn(reactDoctorPlugin.rules, diagnostic.rule);

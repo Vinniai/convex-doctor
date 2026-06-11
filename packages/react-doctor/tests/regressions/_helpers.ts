@@ -157,6 +157,7 @@ export const buildTestProject = (options: BuildTestProjectOptions): ProjectInfo 
     tailwindVersion: options.tailwindVersion ?? null,
     zodVersion: null,
     zodMajorVersion: null,
+    convexVersion: null,
     framework,
     hasTypeScript: options.hasTypeScript ?? true,
     hasReactCompiler: options.hasReactCompiler ?? false,

@@ -185,7 +185,13 @@ export const App = ({ name }: { name: string }) => {
 };
 `,
     );
-    const defaultRun = await captureScanOutput(projectDir, { noScore: false, warnings: true });
+    // `localScore: false` opts into the hosted score path — the fork
+    // defaults to local scoring, which never prints a share URL.
+    const defaultRun = await captureScanOutput(projectDir, {
+      noScore: false,
+      localScore: false,
+      warnings: true,
+    });
     expect(defaultRun.stdout).toContain("Share:");
 
     const projectDir2 = setupMinimalReactProject("issue-92-disabled");

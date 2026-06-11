@@ -277,6 +277,16 @@ export interface ReactDoctorConfig {
   share?: boolean;
   noScore?: boolean;
   /**
+   * Compute the 0-100 score locally (deterministic severity-weighted
+   * density formula) instead of posting diagnostics to the hosted
+   * score API. Fully offline: nothing leaves the machine and no share
+   * URL is printed. Default: `true` in this fork — set to `false` to
+   * opt back into the hosted react.doctor score API (which uploads
+   * the run's diagnostics). The CLI `--local-score` flag forces it on.
+   * `noScore: true` still wins (no score at all).
+   */
+  localScore?: boolean;
+  /**
    * Redirect react-doctor at a different project directory than the one
    * it was invoked against. Resolved relative to the location of the
    * config file that declared this field (NOT relative to the CWD), so
@@ -447,7 +457,7 @@ export interface ReactDoctorConfig {
    *
    * The module must default-export an oxlint-shaped plugin:
    * `{ meta: { name: string }, rules: Record<string, HostRule> }`.
-   * Use `defineRule` from `oxlint-plugin-react-doctor` for the
+   * Use `defineRule` from `oxlint-plugin-react-convex-doctor` for the
    * cleanest authoring shape — see CONTRIBUTING.md → "Writing a
    * custom plugin" for the full template.
    *

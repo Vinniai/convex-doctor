@@ -61,6 +61,7 @@ vi.mock("../src/inspect.js", () => ({
         tailwindVersion: null,
         zodVersion: null,
         zodMajorVersion: null,
+        convexVersion: null,
         framework: "unknown",
         hasTypeScript: true,
         hasReactCompiler: false,

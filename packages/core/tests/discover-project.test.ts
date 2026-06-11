@@ -499,6 +499,18 @@ describe("discoverProject", () => {
     expect(projectInfo.reactVersion).toBe("^19.1.4");
   });
 
+  it("resolves a catalog-backed convex version even when react/tailwind/zod are concrete", () => {
+    // Regression: an app workspace that pins react/tailwind/zod concretely
+    // but keeps `convex` catalog-backed must still hit the monorepo-root
+    // catalog read — otherwise Convex detection (and the convex-* rules)
+    // silently turn off for that workspace.
+    const projectInfo = discoverProject(
+      path.join(FIXTURES_DIRECTORY, "bun-catalog-convex", "apps", "web"),
+    );
+    expect(projectInfo.convexVersion).toBe("^1.35.1");
+    expect(projectInfo.reactVersion).toBe("^19.0.0");
+  });
+
   it("resolves React version from Bun grouped workspace catalog", () => {
     const projectInfo = discoverProject(
       path.join(FIXTURES_DIRECTORY, "bun-grouped-catalog", "apps", "web"),

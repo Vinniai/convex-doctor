@@ -108,5 +108,30 @@ export const collectDeadCodeIgnorePatterns = (
   return [...seen].filter((pattern) => pattern.length > 0);
 };
 
+const CONVEX_JSON_FILENAME = "convex.json";
+
+// Convex functions are deploy-time entry points: the Convex CLI pushes
+// every module in the functions directory and clients invoke them through
+// the generated `api` object, so nothing in the repo imports them. Without
+// this, every `convex/` module (and the `_generated/` runtime it pulls in)
+// reports as an unused file. Honors `convex.json`'s `functions` override
+// (e.g. `"functions": "functions"`).
+const collectConvexEntryPatterns = (rootDirectory: string): string[] => {
+  const convexJson = readJsonFileSafe(path.join(rootDirectory, CONVEX_JSON_FILENAME));
+  const configuredFunctionsDirectory =
+    isRecord(convexJson) &&
+    typeof convexJson.functions === "string" &&
+    convexJson.functions.length > 0
+      ? convexJson.functions.replace(/\/+$/, "")
+      : "convex";
+  if (!fs.existsSync(path.join(rootDirectory, configuredFunctionsDirectory))) return [];
+  return [`${configuredFunctionsDirectory}/**/*.{js,jsx,ts,tsx,mjs,mts}`];
+};
+
 export const collectDeadCodeEntryPatterns = (rootDirectory: string): string[] =>
-  [...new Set(collectKnipPatterns(rootDirectory, "entry"))].filter((pattern) => pattern.length > 0);
+  [
+    ...new Set([
+      ...collectKnipPatterns(rootDirectory, "entry"),
+      ...collectConvexEntryPatterns(rootDirectory),
+    ]),
+  ].filter((pattern) => pattern.length > 0);

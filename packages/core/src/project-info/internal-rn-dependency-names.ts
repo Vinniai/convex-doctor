@@ -1,6 +1,6 @@
 // Project-discovery-side copy of the canonical RN-aware-manifest
 // detection rules. **Intentionally duplicated** with
-// `oxlint-plugin-react-doctor/src/react-native-dependency-names.ts`
+// `oxlint-plugin-react-convex-doctor/src/react-native-dependency-names.ts`
 // — the file there is the authoritative source for the rule gate;
 // this one is the equivalent leaf for the workspace-discovery
 // gate, kept local so importing `@react-doctor/core`'s discovery
@@ -17,7 +17,7 @@
 // Closed set of canonical Expo-managed dependency names — the subset of
 // the RN cohort that marks a manifest as an *Expo* app specifically.
 // Mirrors `EXPO_MANAGED_DEPENDENCY_NAMES` in
-// `oxlint-plugin-react-doctor/src/react-native-dependency-names.ts`.
+// `oxlint-plugin-react-convex-doctor/src/react-native-dependency-names.ts`.
 const EXPO_MANAGED_NAMES: ReadonlySet<string> = new Set([
   "expo",
   "expo-router",

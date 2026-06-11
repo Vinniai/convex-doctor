@@ -6,8 +6,12 @@ import oxlintPlugin, {
   RECOMMENDED_RULES,
   TANSTACK_QUERY_RULES,
   TANSTACK_START_RULES,
-} from "oxlint-plugin-react-doctor";
-import type { EsTreeNode, OxlintRuleSeverity, RuleVisitors } from "oxlint-plugin-react-doctor";
+} from "oxlint-plugin-react-convex-doctor";
+import type {
+  EsTreeNode,
+  OxlintRuleSeverity,
+  RuleVisitors,
+} from "oxlint-plugin-react-convex-doctor";
 
 interface EslintRuleContext {
   report: (descriptor: { node: EsTreeNode; message: string }) => void;

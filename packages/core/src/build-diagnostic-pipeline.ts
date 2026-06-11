@@ -1,4 +1,4 @@
-import reactDoctorPlugin from "oxlint-plugin-react-doctor";
+import reactDoctorPlugin from "oxlint-plugin-react-convex-doctor";
 import type { Diagnostic, ReactDoctorConfig, RuleSeverityOverride } from "./types/index.js";
 import {
   compileIgnoreOverrides,

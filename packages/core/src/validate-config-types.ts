@@ -45,6 +45,7 @@ const BOOLEAN_FIELD_NAMES = [
   "reactRules",
   "share",
   "noScore",
+  "localScore",
   "respectInlineDisables",
   "adoptExistingLintConfig",
 ] as const satisfies ReadonlyArray<keyof ReactDoctorConfig>;

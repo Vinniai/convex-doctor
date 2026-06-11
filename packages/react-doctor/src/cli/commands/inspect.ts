@@ -569,7 +569,10 @@ export const inspectAction = async (directory: string, flags: InspectFlags): Pro
 
     if (!isQuiet && isMultiProject && completedScans.length > 0) {
       const shouldShowShareLink =
-        !scanOptions.noScore && (userConfig?.share ?? true) && !scanOptions.isCi;
+        !scanOptions.noScore &&
+        !scanOptions.localScore &&
+        (userConfig?.share ?? true) &&
+        !scanOptions.isCi;
       await Effect.runPromise(
         printMultiProjectSummary({
           completedScans,

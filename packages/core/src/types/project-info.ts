@@ -52,7 +52,7 @@ export interface ProjectInfo {
    * monorepos where the entry-point `package.json` is Next / Vite /
    * Remix but a sibling workspace (`apps/mobile`, `packages/native-ui`)
    * targets React Native. The file-level package-boundary check in
-   * `oxlint-plugin-react-doctor` still keeps the rules silent on the
+   * `oxlint-plugin-react-convex-doctor` still keeps the rules silent on the
    * web workspaces.
    *
    * `false` collapses the gate to the legacy "framework is RN" behavior

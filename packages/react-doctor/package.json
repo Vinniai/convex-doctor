@@ -1,9 +1,11 @@
 {
-  "name": "react-doctor",
-  "version": "0.5.1",
-  "description": "Your agent writes bad React. This catches it",
+  "name": "react-convex-doctor",
+  "version": "0.1.0",
+  "description": "Convex-first doctor for Convex + React codebases: scans convex/ functions, schemas, and client hooks for security, performance, and correctness issues",
   "keywords": [
     "accessibility",
+    "convex",
+    "convex-dev",
     "diagnostics",
     "linter",
     "nextjs",
@@ -16,19 +18,20 @@
     "tanstack",
     "typescript"
   ],
-  "homepage": "https://github.com/millionco/react-doctor#readme",
+  "homepage": "https://github.com/Vinniai/convex-doctor#readme",
   "bugs": {
-    "url": "https://github.com/millionco/react-doctor/issues"
+    "url": "https://github.com/Vinniai/convex-doctor/issues"
   },
   "license": "MIT",
-  "author": "Million Software, Inc",
+  "author": "Vinniai",
   "repository": {
     "type": "git",
-    "url": "https://github.com/millionco/react-doctor.git",
+    "url": "https://github.com/Vinniai/convex-doctor.git",
     "directory": "packages/react-doctor"
   },
   "bin": {
-    "react-doctor": "./bin/react-doctor.js"
+    "convex-doctor": "./bin/react-doctor.js",
+    "react-convex-doctor": "./bin/react-doctor.js"
   },
   "files": [
     "bin/**",
@@ -65,7 +68,7 @@
     "jiti": "^2.7.0",
     "magicast": "^0.5.3",
     "oxlint": "^1.66.0",
-    "oxlint-plugin-react-doctor": "workspace:*",
+    "oxlint-plugin-react-convex-doctor": "workspace:*",
     "prompts": "^2.4.2",
     "typescript": ">=5.0.4 <7",
     "vscode-languageserver": "^9.0.1",

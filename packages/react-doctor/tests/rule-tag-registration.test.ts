@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vite-plus/test";
-import reactDoctorPlugin from "oxlint-plugin-react-doctor";
-import type { Rule } from "oxlint-plugin-react-doctor";
+import reactDoctorPlugin from "oxlint-plugin-react-convex-doctor";
+import type { Rule } from "oxlint-plugin-react-convex-doctor";
 
 const getRuleTags = (ruleId: string): ReadonlyArray<string> => {
   const rule = reactDoctorPlugin.rules[ruleId];

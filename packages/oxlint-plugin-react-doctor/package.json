@@ -1,9 +1,10 @@
 {
-  "name": "oxlint-plugin-react-doctor",
-  "version": "0.5.1",
-  "description": "oxlint plugin for React Doctor: diagnose React codebases for security, performance, correctness, accessibility, bundle-size, and architecture issues",
+  "name": "oxlint-plugin-react-convex-doctor",
+  "version": "0.1.0",
+  "description": "oxlint plugin for React Convex Doctor: diagnose Convex backends and React clients for security, performance, correctness, and architecture issues",
   "keywords": [
     "accessibility",
+    "convex",
     "linter",
     "nextjs",
     "oxc",
@@ -17,15 +18,15 @@
     "tanstack",
     "typescript"
   ],
-  "homepage": "https://github.com/millionco/react-doctor#readme",
+  "homepage": "https://github.com/Vinniai/convex-doctor#readme",
   "bugs": {
-    "url": "https://github.com/millionco/react-doctor/issues"
+    "url": "https://github.com/Vinniai/convex-doctor/issues"
   },
   "license": "MIT",
-  "author": "Aiden Bai",
+  "author": "Vinniai",
   "repository": {
     "type": "git",
-    "url": "https://github.com/millionco/react-doctor.git",
+    "url": "https://github.com/Vinniai/convex-doctor.git",
     "directory": "packages/oxlint-plugin-react-doctor"
   },
   "files": [

@@ -216,13 +216,17 @@ export const getConvexConfigForHandlerFunction = (
 ): ConvexFunctionConfig | null => {
   let parent: EsTreeNode | null | undefined = functionNode.parent;
   // Unwrap parenthesised / TS-asserted wrappers between the function
-  // and its structural parent.
-  while (
-    parent &&
-    (isNodeOfType(parent, "ParenthesizedExpression") ||
-      parent.type === "TSAsExpression" ||
-      parent.type === "TSSatisfiesExpression")
-  ) {
+  // and its structural parent. Compared as plain strings because
+  // `ParenthesizedExpression` isn't part of the EsTreeNodeType union.
+  while (parent) {
+    const parentType: string = parent.type;
+    if (
+      parentType !== "ParenthesizedExpression" &&
+      parentType !== "TSAsExpression" &&
+      parentType !== "TSSatisfiesExpression"
+    ) {
+      break;
+    }
     parent = parent.parent;
   }
   if (!parent) return null;

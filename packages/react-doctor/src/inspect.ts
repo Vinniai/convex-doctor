@@ -142,6 +142,7 @@ export interface ResolvedInspectOptions {
   verbose: boolean;
   scoreOnly: boolean;
   noScore: boolean;
+  localScore: boolean;
   isCi: boolean;
   isCiOrCodingAgentEnvironment: boolean;
   isNonInteractiveEnvironment: boolean;
@@ -187,6 +188,10 @@ const mergeInspectOptions = (
   verbose: inputOptions.verbose ?? userConfig?.verbose ?? false,
   scoreOnly: inputOptions.scoreOnly ?? false,
   noScore: inputOptions.noScore ?? userConfig?.noScore ?? false,
+  // This fork defaults to LOCAL scoring: diagnostics never leave the
+  // machine. Set `localScore: false` in config to opt back into the
+  // hosted react.doctor score API (which uploads diagnostics).
+  localScore: inputOptions.localScore ?? userConfig?.localScore ?? true,
   isCi: inputOptions.isCi ?? false,
   isCiOrCodingAgentEnvironment: isCiOrCodingAgentEnvironment(),
   isNonInteractiveEnvironment: isNonInteractiveEnvironment(),
@@ -514,7 +519,8 @@ const runInspectWithRuntime = async (
     configSourceDirectory,
     shouldSkipLint: !options.lint || lintBindingMissing,
     shouldRunDeadCode: options.deadCode,
-    shouldComputeScore: !options.noScore,
+    shouldComputeScore: !options.noScore && !options.localScore,
+    shouldComputeScoreLocally: !options.noScore && options.localScore === true,
     shouldShowProgressSpinners,
     oxlintConcurrency: options.concurrency,
   });
@@ -941,7 +947,8 @@ const finalizeAndRender = (input: FinalizeInput): Effect.Effect<InspectResult> =
         )
       : null;
 
-    const shouldShowShareLink = !options.noScore && options.share && !options.isCi;
+    const shouldShowShareLink =
+      !options.noScore && !options.localScore && options.share && !options.isCi;
     yield* pause;
     yield* printSummary({
       diagnostics: [...printedDiagnostics],

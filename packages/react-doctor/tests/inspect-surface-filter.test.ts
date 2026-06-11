@@ -2,7 +2,7 @@ import { afterEach, describe, expect, it, vi } from "vite-plus/test";
 import { inspect } from "../src/inspect.js";
 import * as path from "node:path";
 import { gunzipSync } from "node:zlib";
-import reactDoctorPlugin from "oxlint-plugin-react-doctor";
+import reactDoctorPlugin from "oxlint-plugin-react-convex-doctor";
 
 vi.mock("ora", () => ({
   default: () => ({
@@ -86,6 +86,9 @@ describe("inspect — score surface filter", () => {
         lint: true,
         deadCode: false,
         noScore: false,
+        // This test exercises the hosted-score upload path (fetch is
+        // stubbed) — opt out of the fork's local-score default.
+        localScore: false,
         warnings: true,
         configOverride: { rules: DESIGN_RULE_OVERRIDES },
       });

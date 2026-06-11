@@ -71,7 +71,7 @@ const CACHE_DISABLED_VALUES = new Set(["1", "true"]);
 const TOOLCHAIN_PACKAGE_SPECIFIERS = [
   "oxlint",
   "oxlint/package.json",
-  "oxlint-plugin-react-doctor",
+  "oxlint-plugin-react-convex-doctor",
   "deslop-js/package.json",
   "eslint-plugin-react-hooks/package.json",
 ] as const;
@@ -262,6 +262,10 @@ export const buildScanResultCacheKey = (input: ScanResultCacheKeyInput): string 
       // non-lines lookup matches a non-lines store; only real ranges shift the key.
       changedLineRanges: input.options.changedLineRanges ?? undefined,
       noScore: input.options.noScore,
+      // `false` and an omitted field hash identically (mirroring
+      // `changedLineRanges` above) so pre-existing cache entries and
+      // callers that never set the flag keep matching.
+      localScore: input.options.localScore === true ? true : undefined,
       isCi: input.options.isCi,
       suppressRendering: input.options.suppressRendering,
       supplyChainManifestChanged: input.options.supplyChainManifestChanged,

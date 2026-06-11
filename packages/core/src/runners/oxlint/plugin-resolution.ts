@@ -1,6 +1,6 @@
 import { createRequire } from "node:module";
 import * as path from "node:path";
-import type { OxlintRuleSeverity } from "oxlint-plugin-react-doctor";
+import type { OxlintRuleSeverity } from "oxlint-plugin-react-convex-doctor";
 import { warnConfigIssue } from "../../utils/warn-config-issue.js";
 
 export interface JsPluginEntry {

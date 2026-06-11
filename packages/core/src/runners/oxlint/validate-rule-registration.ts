@@ -1,7 +1,7 @@
 import reactDoctorPlugin, {
   ALL_REACT_DOCTOR_RULE_KEYS,
   FRAMEWORK_SPECIFIC_RULE_KEYS,
-} from "oxlint-plugin-react-doctor";
+} from "oxlint-plugin-react-convex-doctor";
 import { getRuleCategory } from "./parse-output.js";
 
 let didValidate = false;

@@ -143,6 +143,10 @@ const program = new Command()
     ).hideHelp(),
   )
   .option("--no-score", "skip the score API, the share URL, and crash reporting")
+  .option(
+    "--local-score",
+    "compute the score locally instead of via the score API (fully offline; no share URL or crash reporting)",
+  )
   .addOption(
     new Option(
       "--category <category>",

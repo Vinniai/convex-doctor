@@ -1,8 +1,8 @@
-import reactDoctorPlugin from "oxlint-plugin-react-doctor";
+import reactDoctorPlugin from "oxlint-plugin-react-convex-doctor";
 
 /**
  * Static, presentation-oriented metadata for a single rule, resolved
- * from the bundled `oxlint-plugin-react-doctor` registry. Editor
+ * from the bundled `oxlint-plugin-react-convex-doctor` registry. Editor
  * integrations use this to enrich hovers and code actions (rule tags,
  * canonical recommendation, owning category) without importing the
  * plugin themselves — `@react-doctor/core` already loads it.

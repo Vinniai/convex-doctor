@@ -7,6 +7,7 @@ export interface InspectFlags {
   deadCode?: boolean;
   verbose?: boolean;
   score?: boolean;
+  localScore?: boolean;
   json?: boolean;
   jsonCompact?: boolean;
   telemetry?: boolean;

@@ -42,6 +42,10 @@ export const resolveCliInspectOptions = (
     warnings: wantsWarningGate ? true : flags.warnings,
     scoreOnly: flags.score === true,
     noScore: flags.score === false || flags.telemetry === false || (userConfig?.noScore ?? false),
+    // Fork default: score locally (no diagnostic upload). `--local-score`
+    // forces it on; `localScore: false` in config opts back into the
+    // hosted score API.
+    localScore: flags.localScore ?? userConfig?.localScore ?? true,
     isCi: isCiEnvironment(),
     silent: Boolean(flags.json),
     concurrency: resolveParallelFlag(flags.parallel),

@@ -26,6 +26,7 @@ const buildDiagnoseResult = (): DiagnoseResult => ({
     tailwindVersion: null,
     zodVersion: null,
     zodMajorVersion: null,
+    convexVersion: null,
     framework: "vite",
     hasTypeScript: true,
     hasReactCompiler: false,

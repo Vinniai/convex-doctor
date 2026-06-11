@@ -1,6 +1,6 @@
 import { spawnSync } from "node:child_process";
 import * as path from "node:path";
-import { MOTION_LIBRARY_PACKAGES } from "oxlint-plugin-react-doctor";
+import { MOTION_LIBRARY_PACKAGES } from "oxlint-plugin-react-convex-doctor";
 import type { Diagnostic } from "./types/index.js";
 import { isFile, readPackageJson } from "./project-info/index.js";
 

@@ -41,6 +41,7 @@ const buildRnProject = (
   tailwindVersion: null,
   zodVersion: null,
   zodMajorVersion: null,
+  convexVersion: null,
   framework,
   hasTypeScript: true,
   hasReactCompiler: false,

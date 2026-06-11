@@ -40,6 +40,7 @@ const buildExpoProject = (
   tailwindVersion: null,
   zodVersion: null,
   zodMajorVersion: null,
+  convexVersion: null,
   framework: "expo",
   hasTypeScript: true,
   hasReactCompiler: false,

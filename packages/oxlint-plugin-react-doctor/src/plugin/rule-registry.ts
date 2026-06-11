@@ -29,7 +29,45 @@ import { clickEventsHaveKeyEvents } from "./rules/a11y/click-events-have-key-eve
 import { clientLocalstorageNoVersion } from "./rules/client/client-localstorage-no-version.js";
 import { clientPassiveEventListeners } from "./rules/client/client-passive-event-listeners.js";
 import { controlHasAssociatedLabel } from "./rules/a11y/control-has-associated-label.js";
+import { convexAnnotateHelperCtx } from "./rules/convex-typescript/convex-annotate-helper-ctx.js";
+import { convexAvoidDbInLoop } from "./rules/convex-db/convex-avoid-db-in-loop.js";
+import { convexAvoidRedundantIndexes } from "./rules/convex-db/convex-avoid-redundant-indexes.js";
+import { convexCronsInternalOnly } from "./rules/convex-security/convex-crons-internal-only.js";
+import { convexHttpRouterInHttpFile } from "./rules/convex-functions/convex-http-router-in-http-file.js";
+import { convexMutationFloatingPromise } from "./rules/convex-react/convex-mutation-floating-promise.js";
+import { convexNoApiSelfCall } from "./rules/convex-typescript/convex-no-api-self-call.js";
+import { convexNoConditionalConvexHooks } from "./rules/convex-react/convex-no-conditional-convex-hooks.js";
 import { convexNoCtxDbInAction } from "./rules/convex-functions/convex-no-ctx-db-in-action.js";
+import { convexNoDateNowInQuery } from "./rules/convex-functions/convex-no-date-now-in-query.js";
+import { convexNoFetchInQuery } from "./rules/convex-functions/convex-no-fetch-in-query.js";
+import { convexNoFilterInQuery } from "./rules/convex-db/convex-no-filter-in-query.js";
+import { convexNoFloatingAsyncMap } from "./rules/convex-functions/convex-no-floating-async-map.js";
+import { convexNoFloatingDbWrite } from "./rules/convex-functions/convex-no-floating-db-write.js";
+import { convexNoFloatingScheduler } from "./rules/convex-functions/convex-no-floating-scheduler.js";
+import { convexNoHardcodedSecrets } from "./rules/convex-security/convex-no-hardcoded-secrets.js";
+import { convexNoOldFunctionSyntax } from "./rules/convex-functions/convex-no-old-function-syntax.js";
+import { convexNoRunActionFromMutation } from "./rules/convex-db/convex-no-run-action-from-mutation.js";
+import { convexNoSequentialCtxRun } from "./rules/convex-db/convex-no-sequential-ctx-run.js";
+import { convexNoStringFunctionRefs } from "./rules/convex-react/convex-no-string-function-refs.js";
+import { convexNoTimersInQuery } from "./rules/convex-functions/convex-no-timers-in-query.js";
+import { convexNoUnboundedCollect } from "./rules/convex-db/convex-no-unbounded-collect.js";
+import { convexNoUnnecessaryRunAction } from "./rules/convex-db/convex-no-unnecessary-run-action.js";
+import { convexNoUntrustedUserId } from "./rules/convex-security/convex-no-untrusted-user-id.js";
+import { convexNoUnvalidatedArgs } from "./rules/convex-security/convex-no-unvalidated-args.js";
+import { convexNoUseNodeWithQuery } from "./rules/convex-functions/convex-no-use-node-with-query.js";
+import { convexNodeImportWithoutUseNode } from "./rules/convex-functions/convex-node-import-without-use-node.js";
+import { convexPreferConvexError } from "./rules/convex-functions/convex-prefer-convex-error.js";
+import { convexPreferHelpersOverCtxRun } from "./rules/convex-db/convex-prefer-helpers-over-ctx-run.js";
+import { convexPreferIdType } from "./rules/convex-typescript/convex-prefer-id-type.js";
+import { convexPreferTakeOverCollectLength } from "./rules/convex-db/convex-prefer-take-over-collect-length.js";
+import { convexPreferVId } from "./rules/convex-schema/convex-prefer-v-id.js";
+import { convexRequireAuthCheck } from "./rules/convex-security/convex-require-auth-check.js";
+import { convexRequireReturnsValidator } from "./rules/convex-functions/convex-require-returns-validator.js";
+import { convexSchedulerInternalOnly } from "./rules/convex-security/convex-scheduler-internal-only.js";
+import { convexSchemaDefineInSchemaFile } from "./rules/convex-schema/convex-schema-define-in-schema-file.js";
+import { convexSchemaNoReservedFields } from "./rules/convex-schema/convex-schema-no-reserved-fields.js";
+import { convexUseQuerySkipPattern } from "./rules/convex-react/convex-usequery-skip-pattern.js";
+import { convexUseQueryUndefinedCheck } from "./rules/convex-react/convex-usequery-undefined-check.js";
 import { noEmDashInJsxText } from "./rules/react-ui/no-em-dash-in-jsx-text.js";
 import { noRedundantPaddingAxes } from "./rules/react-ui/no-redundant-padding-axes.js";
 import { noRedundantSizeAxes } from "./rules/react-ui/no-redundant-size-axes.js";
@@ -599,6 +637,114 @@ export const reactDoctorRules = [
     },
   },
   {
+    key: "react-doctor/convex-annotate-helper-ctx",
+    id: "convex-annotate-helper-ctx",
+    source: "react-doctor",
+    originallyExternal: false,
+    rule: {
+      ...convexAnnotateHelperCtx,
+      framework: "global",
+      category: "Maintainability",
+      tags: [...new Set(["convex", ...(convexAnnotateHelperCtx.tags ?? [])])],
+      requires: [...new Set(["convex", ...(convexAnnotateHelperCtx.requires ?? [])])],
+    },
+  },
+  {
+    key: "react-doctor/convex-avoid-db-in-loop",
+    id: "convex-avoid-db-in-loop",
+    source: "react-doctor",
+    originallyExternal: false,
+    rule: {
+      ...convexAvoidDbInLoop,
+      framework: "global",
+      category: "Performance",
+      tags: [...new Set(["convex", ...(convexAvoidDbInLoop.tags ?? [])])],
+      requires: [...new Set(["convex", ...(convexAvoidDbInLoop.requires ?? [])])],
+    },
+  },
+  {
+    key: "react-doctor/convex-avoid-redundant-indexes",
+    id: "convex-avoid-redundant-indexes",
+    source: "react-doctor",
+    originallyExternal: false,
+    rule: {
+      ...convexAvoidRedundantIndexes,
+      framework: "global",
+      category: "Performance",
+      tags: [...new Set(["convex", ...(convexAvoidRedundantIndexes.tags ?? [])])],
+      requires: [...new Set(["convex", ...(convexAvoidRedundantIndexes.requires ?? [])])],
+    },
+  },
+  {
+    key: "react-doctor/convex-crons-internal-only",
+    id: "convex-crons-internal-only",
+    source: "react-doctor",
+    originallyExternal: false,
+    rule: {
+      ...convexCronsInternalOnly,
+      framework: "global",
+      category: "Security",
+      tags: [...new Set(["convex", ...(convexCronsInternalOnly.tags ?? [])])],
+      requires: [...new Set(["convex", ...(convexCronsInternalOnly.requires ?? [])])],
+    },
+  },
+  {
+    key: "react-doctor/convex-http-router-in-http-file",
+    id: "convex-http-router-in-http-file",
+    source: "react-doctor",
+    originallyExternal: false,
+    rule: {
+      ...convexHttpRouterInHttpFile,
+      framework: "global",
+      category: "Bugs",
+      tags: [...new Set(["convex", ...(convexHttpRouterInHttpFile.tags ?? [])])],
+      requires: [...new Set(["convex", ...(convexHttpRouterInHttpFile.requires ?? [])])],
+    },
+  },
+  {
+    key: "react-doctor/convex-mutation-floating-promise",
+    id: "convex-mutation-floating-promise",
+    source: "react-doctor",
+    originallyExternal: false,
+    rule: {
+      ...convexMutationFloatingPromise,
+      framework: "global",
+      category: "Bugs",
+      tags: [...new Set(["convex", ...(convexMutationFloatingPromise.tags ?? [])])],
+      requires: [
+        ...new Set(["react", "convex", ...(convexMutationFloatingPromise.requires ?? [])]),
+      ],
+    },
+  },
+  {
+    key: "react-doctor/convex-no-api-self-call",
+    id: "convex-no-api-self-call",
+    source: "react-doctor",
+    originallyExternal: false,
+    rule: {
+      ...convexNoApiSelfCall,
+      framework: "global",
+      category: "Maintainability",
+      tags: [...new Set(["convex", ...(convexNoApiSelfCall.tags ?? [])])],
+      requires: [...new Set(["convex", ...(convexNoApiSelfCall.requires ?? [])])],
+    },
+  },
+  {
+    key: "react-doctor/convex-no-conditional-convex-hooks",
+    id: "convex-no-conditional-convex-hooks",
+    source: "react-doctor",
+    originallyExternal: false,
+    rule: {
+      ...convexNoConditionalConvexHooks,
+      framework: "global",
+      category: "Bugs",
+      tags: [...new Set(["convex", ...(convexNoConditionalConvexHooks.tags ?? [])])],
+      requires: [
+        ...new Set(["react", "convex", ...(convexNoConditionalConvexHooks.requires ?? [])]),
+      ],
+    },
+  },
+  {
     key: "react-doctor/convex-no-ctx-db-in-action",
     id: "convex-no-ctx-db-in-action",
     source: "react-doctor",
@@ -609,6 +755,396 @@ export const reactDoctorRules = [
       category: "Bugs",
       tags: [...new Set(["convex", ...(convexNoCtxDbInAction.tags ?? [])])],
       requires: [...new Set(["convex", ...(convexNoCtxDbInAction.requires ?? [])])],
+    },
+  },
+  {
+    key: "react-doctor/convex-no-date-now-in-query",
+    id: "convex-no-date-now-in-query",
+    source: "react-doctor",
+    originallyExternal: false,
+    rule: {
+      ...convexNoDateNowInQuery,
+      framework: "global",
+      category: "Bugs",
+      tags: [...new Set(["convex", ...(convexNoDateNowInQuery.tags ?? [])])],
+      requires: [...new Set(["convex", ...(convexNoDateNowInQuery.requires ?? [])])],
+    },
+  },
+  {
+    key: "react-doctor/convex-no-fetch-in-query",
+    id: "convex-no-fetch-in-query",
+    source: "react-doctor",
+    originallyExternal: false,
+    rule: {
+      ...convexNoFetchInQuery,
+      framework: "global",
+      category: "Bugs",
+      tags: [...new Set(["convex", ...(convexNoFetchInQuery.tags ?? [])])],
+      requires: [...new Set(["convex", ...(convexNoFetchInQuery.requires ?? [])])],
+    },
+  },
+  {
+    key: "react-doctor/convex-no-filter-in-query",
+    id: "convex-no-filter-in-query",
+    source: "react-doctor",
+    originallyExternal: false,
+    rule: {
+      ...convexNoFilterInQuery,
+      framework: "global",
+      category: "Performance",
+      tags: [...new Set(["convex", ...(convexNoFilterInQuery.tags ?? [])])],
+      requires: [...new Set(["convex", ...(convexNoFilterInQuery.requires ?? [])])],
+    },
+  },
+  {
+    key: "react-doctor/convex-no-floating-async-map",
+    id: "convex-no-floating-async-map",
+    source: "react-doctor",
+    originallyExternal: false,
+    rule: {
+      ...convexNoFloatingAsyncMap,
+      framework: "global",
+      category: "Bugs",
+      tags: [...new Set(["convex", ...(convexNoFloatingAsyncMap.tags ?? [])])],
+      requires: [...new Set(["convex", ...(convexNoFloatingAsyncMap.requires ?? [])])],
+    },
+  },
+  {
+    key: "react-doctor/convex-no-floating-db-write",
+    id: "convex-no-floating-db-write",
+    source: "react-doctor",
+    originallyExternal: false,
+    rule: {
+      ...convexNoFloatingDbWrite,
+      framework: "global",
+      category: "Bugs",
+      tags: [...new Set(["convex", ...(convexNoFloatingDbWrite.tags ?? [])])],
+      requires: [...new Set(["convex", ...(convexNoFloatingDbWrite.requires ?? [])])],
+    },
+  },
+  {
+    key: "react-doctor/convex-no-floating-scheduler",
+    id: "convex-no-floating-scheduler",
+    source: "react-doctor",
+    originallyExternal: false,
+    rule: {
+      ...convexNoFloatingScheduler,
+      framework: "global",
+      category: "Bugs",
+      tags: [...new Set(["convex", ...(convexNoFloatingScheduler.tags ?? [])])],
+      requires: [...new Set(["convex", ...(convexNoFloatingScheduler.requires ?? [])])],
+    },
+  },
+  {
+    key: "react-doctor/convex-no-hardcoded-secrets",
+    id: "convex-no-hardcoded-secrets",
+    source: "react-doctor",
+    originallyExternal: false,
+    rule: {
+      ...convexNoHardcodedSecrets,
+      framework: "global",
+      category: "Security",
+      tags: [...new Set(["convex", ...(convexNoHardcodedSecrets.tags ?? [])])],
+      requires: [...new Set(["convex", ...(convexNoHardcodedSecrets.requires ?? [])])],
+    },
+  },
+  {
+    key: "react-doctor/convex-no-old-function-syntax",
+    id: "convex-no-old-function-syntax",
+    source: "react-doctor",
+    originallyExternal: false,
+    rule: {
+      ...convexNoOldFunctionSyntax,
+      framework: "global",
+      category: "Bugs",
+      tags: [...new Set(["convex", ...(convexNoOldFunctionSyntax.tags ?? [])])],
+      requires: [...new Set(["convex", ...(convexNoOldFunctionSyntax.requires ?? [])])],
+    },
+  },
+  {
+    key: "react-doctor/convex-no-run-action-from-mutation",
+    id: "convex-no-run-action-from-mutation",
+    source: "react-doctor",
+    originallyExternal: false,
+    rule: {
+      ...convexNoRunActionFromMutation,
+      framework: "global",
+      category: "Bugs",
+      tags: [...new Set(["convex", ...(convexNoRunActionFromMutation.tags ?? [])])],
+      requires: [...new Set(["convex", ...(convexNoRunActionFromMutation.requires ?? [])])],
+    },
+  },
+  {
+    key: "react-doctor/convex-no-sequential-ctx-run",
+    id: "convex-no-sequential-ctx-run",
+    source: "react-doctor",
+    originallyExternal: false,
+    rule: {
+      ...convexNoSequentialCtxRun,
+      framework: "global",
+      category: "Performance",
+      tags: [...new Set(["convex", ...(convexNoSequentialCtxRun.tags ?? [])])],
+      requires: [...new Set(["convex", ...(convexNoSequentialCtxRun.requires ?? [])])],
+    },
+  },
+  {
+    key: "react-doctor/convex-no-string-function-refs",
+    id: "convex-no-string-function-refs",
+    source: "react-doctor",
+    originallyExternal: false,
+    rule: {
+      ...convexNoStringFunctionRefs,
+      framework: "global",
+      category: "Bugs",
+      tags: [...new Set(["convex", ...(convexNoStringFunctionRefs.tags ?? [])])],
+      requires: [...new Set(["react", "convex", ...(convexNoStringFunctionRefs.requires ?? [])])],
+    },
+  },
+  {
+    key: "react-doctor/convex-no-timers-in-query",
+    id: "convex-no-timers-in-query",
+    source: "react-doctor",
+    originallyExternal: false,
+    rule: {
+      ...convexNoTimersInQuery,
+      framework: "global",
+      category: "Bugs",
+      tags: [...new Set(["convex", ...(convexNoTimersInQuery.tags ?? [])])],
+      requires: [...new Set(["convex", ...(convexNoTimersInQuery.requires ?? [])])],
+    },
+  },
+  {
+    key: "react-doctor/convex-no-unbounded-collect",
+    id: "convex-no-unbounded-collect",
+    source: "react-doctor",
+    originallyExternal: false,
+    rule: {
+      ...convexNoUnboundedCollect,
+      framework: "global",
+      category: "Performance",
+      tags: [...new Set(["convex", ...(convexNoUnboundedCollect.tags ?? [])])],
+      requires: [...new Set(["convex", ...(convexNoUnboundedCollect.requires ?? [])])],
+    },
+  },
+  {
+    key: "react-doctor/convex-no-unnecessary-run-action",
+    id: "convex-no-unnecessary-run-action",
+    source: "react-doctor",
+    originallyExternal: false,
+    rule: {
+      ...convexNoUnnecessaryRunAction,
+      framework: "global",
+      category: "Performance",
+      tags: [...new Set(["convex", ...(convexNoUnnecessaryRunAction.tags ?? [])])],
+      requires: [...new Set(["convex", ...(convexNoUnnecessaryRunAction.requires ?? [])])],
+    },
+  },
+  {
+    key: "react-doctor/convex-no-untrusted-user-id",
+    id: "convex-no-untrusted-user-id",
+    source: "react-doctor",
+    originallyExternal: false,
+    rule: {
+      ...convexNoUntrustedUserId,
+      framework: "global",
+      category: "Security",
+      tags: [...new Set(["convex", ...(convexNoUntrustedUserId.tags ?? [])])],
+      requires: [...new Set(["convex", ...(convexNoUntrustedUserId.requires ?? [])])],
+    },
+  },
+  {
+    key: "react-doctor/convex-no-unvalidated-args",
+    id: "convex-no-unvalidated-args",
+    source: "react-doctor",
+    originallyExternal: false,
+    rule: {
+      ...convexNoUnvalidatedArgs,
+      framework: "global",
+      category: "Security",
+      tags: [...new Set(["convex", ...(convexNoUnvalidatedArgs.tags ?? [])])],
+      requires: [...new Set(["convex", ...(convexNoUnvalidatedArgs.requires ?? [])])],
+    },
+  },
+  {
+    key: "react-doctor/convex-no-use-node-with-query",
+    id: "convex-no-use-node-with-query",
+    source: "react-doctor",
+    originallyExternal: false,
+    rule: {
+      ...convexNoUseNodeWithQuery,
+      framework: "global",
+      category: "Bugs",
+      tags: [...new Set(["convex", ...(convexNoUseNodeWithQuery.tags ?? [])])],
+      requires: [...new Set(["convex", ...(convexNoUseNodeWithQuery.requires ?? [])])],
+    },
+  },
+  {
+    key: "react-doctor/convex-node-import-without-use-node",
+    id: "convex-node-import-without-use-node",
+    source: "react-doctor",
+    originallyExternal: false,
+    rule: {
+      ...convexNodeImportWithoutUseNode,
+      framework: "global",
+      category: "Bugs",
+      tags: [...new Set(["convex", ...(convexNodeImportWithoutUseNode.tags ?? [])])],
+      requires: [...new Set(["convex", ...(convexNodeImportWithoutUseNode.requires ?? [])])],
+    },
+  },
+  {
+    key: "react-doctor/convex-prefer-convex-error",
+    id: "convex-prefer-convex-error",
+    source: "react-doctor",
+    originallyExternal: false,
+    rule: {
+      ...convexPreferConvexError,
+      framework: "global",
+      category: "Bugs",
+      tags: [...new Set(["convex", ...(convexPreferConvexError.tags ?? [])])],
+      requires: [...new Set(["convex", ...(convexPreferConvexError.requires ?? [])])],
+    },
+  },
+  {
+    key: "react-doctor/convex-prefer-helpers-over-ctx-run",
+    id: "convex-prefer-helpers-over-ctx-run",
+    source: "react-doctor",
+    originallyExternal: false,
+    rule: {
+      ...convexPreferHelpersOverCtxRun,
+      framework: "global",
+      category: "Performance",
+      tags: [...new Set(["convex", ...(convexPreferHelpersOverCtxRun.tags ?? [])])],
+      requires: [...new Set(["convex", ...(convexPreferHelpersOverCtxRun.requires ?? [])])],
+    },
+  },
+  {
+    key: "react-doctor/convex-prefer-id-type",
+    id: "convex-prefer-id-type",
+    source: "react-doctor",
+    originallyExternal: false,
+    rule: {
+      ...convexPreferIdType,
+      framework: "global",
+      category: "Maintainability",
+      tags: [...new Set(["convex", ...(convexPreferIdType.tags ?? [])])],
+      requires: [...new Set(["convex", ...(convexPreferIdType.requires ?? [])])],
+    },
+  },
+  {
+    key: "react-doctor/convex-prefer-take-over-collect-length",
+    id: "convex-prefer-take-over-collect-length",
+    source: "react-doctor",
+    originallyExternal: false,
+    rule: {
+      ...convexPreferTakeOverCollectLength,
+      framework: "global",
+      category: "Performance",
+      tags: [...new Set(["convex", ...(convexPreferTakeOverCollectLength.tags ?? [])])],
+      requires: [...new Set(["convex", ...(convexPreferTakeOverCollectLength.requires ?? [])])],
+    },
+  },
+  {
+    key: "react-doctor/convex-prefer-v-id",
+    id: "convex-prefer-v-id",
+    source: "react-doctor",
+    originallyExternal: false,
+    rule: {
+      ...convexPreferVId,
+      framework: "global",
+      category: "Bugs",
+      tags: [...new Set(["convex", ...(convexPreferVId.tags ?? [])])],
+      requires: [...new Set(["convex", ...(convexPreferVId.requires ?? [])])],
+    },
+  },
+  {
+    key: "react-doctor/convex-require-auth-check",
+    id: "convex-require-auth-check",
+    source: "react-doctor",
+    originallyExternal: false,
+    rule: {
+      ...convexRequireAuthCheck,
+      framework: "global",
+      category: "Security",
+      tags: [...new Set(["convex", ...(convexRequireAuthCheck.tags ?? [])])],
+      requires: [...new Set(["convex", ...(convexRequireAuthCheck.requires ?? [])])],
+    },
+  },
+  {
+    key: "react-doctor/convex-require-returns-validator",
+    id: "convex-require-returns-validator",
+    source: "react-doctor",
+    originallyExternal: false,
+    rule: {
+      ...convexRequireReturnsValidator,
+      framework: "global",
+      category: "Bugs",
+      tags: [...new Set(["convex", ...(convexRequireReturnsValidator.tags ?? [])])],
+      requires: [...new Set(["convex", ...(convexRequireReturnsValidator.requires ?? [])])],
+    },
+  },
+  {
+    key: "react-doctor/convex-scheduler-internal-only",
+    id: "convex-scheduler-internal-only",
+    source: "react-doctor",
+    originallyExternal: false,
+    rule: {
+      ...convexSchedulerInternalOnly,
+      framework: "global",
+      category: "Security",
+      tags: [...new Set(["convex", ...(convexSchedulerInternalOnly.tags ?? [])])],
+      requires: [...new Set(["convex", ...(convexSchedulerInternalOnly.requires ?? [])])],
+    },
+  },
+  {
+    key: "react-doctor/convex-schema-define-in-schema-file",
+    id: "convex-schema-define-in-schema-file",
+    source: "react-doctor",
+    originallyExternal: false,
+    rule: {
+      ...convexSchemaDefineInSchemaFile,
+      framework: "global",
+      category: "Bugs",
+      tags: [...new Set(["convex", ...(convexSchemaDefineInSchemaFile.tags ?? [])])],
+      requires: [...new Set(["convex", ...(convexSchemaDefineInSchemaFile.requires ?? [])])],
+    },
+  },
+  {
+    key: "react-doctor/convex-schema-no-reserved-fields",
+    id: "convex-schema-no-reserved-fields",
+    source: "react-doctor",
+    originallyExternal: false,
+    rule: {
+      ...convexSchemaNoReservedFields,
+      framework: "global",
+      category: "Bugs",
+      tags: [...new Set(["convex", ...(convexSchemaNoReservedFields.tags ?? [])])],
+      requires: [...new Set(["convex", ...(convexSchemaNoReservedFields.requires ?? [])])],
+    },
+  },
+  {
+    key: "react-doctor/convex-usequery-skip-pattern",
+    id: "convex-usequery-skip-pattern",
+    source: "react-doctor",
+    originallyExternal: false,
+    rule: {
+      ...convexUseQuerySkipPattern,
+      framework: "global",
+      category: "Bugs",
+      tags: [...new Set(["convex", ...(convexUseQuerySkipPattern.tags ?? [])])],
+      requires: [...new Set(["react", "convex", ...(convexUseQuerySkipPattern.requires ?? [])])],
+    },
+  },
+  {
+    key: "react-doctor/convex-usequery-undefined-check",
+    id: "convex-usequery-undefined-check",
+    source: "react-doctor",
+    originallyExternal: false,
+    rule: {
+      ...convexUseQueryUndefinedCheck,
+      framework: "global",
+      category: "Bugs",
+      tags: [...new Set(["convex", ...(convexUseQueryUndefinedCheck.tags ?? [])])],
+      requires: [...new Set(["react", "convex", ...(convexUseQueryUndefinedCheck.requires ?? [])])],
     },
   },
   {
