@@ -1,70 +1,114 @@
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="./assets/react-doctor-readme-logo-dark.svg">
-  <source media="(prefers-color-scheme: light)" srcset="./assets/react-doctor-readme-logo-light.svg">
-  <img alt="React Doctor" src="./assets/react-doctor-readme-logo-light.svg" width="134" height="36">
-</picture>
+# React Convex Doctor
 
-[![version](https://img.shields.io/npm/v/react-doctor?style=flat&colorA=000000&colorB=000000)](https://npmjs.com/package/react-doctor)
-[![downloads](https://img.shields.io/npm/dt/react-doctor.svg?style=flat&colorA=000000&colorB=000000)](https://npmjs.com/package/react-doctor)
+[![version](https://img.shields.io/npm/v/react-convex-doctor?style=flat&colorA=000000&colorB=000000)](https://npmjs.com/package/react-convex-doctor)
 
-Your agent writes bad React, this catches it.
+A Convex-first code doctor: deterministically scans your [Convex](https://convex.dev)
+backend — functions, schemas, scheduling, and the React client hooks — for
+security, correctness, performance, and maintainability issues, and scores the
+project 0–100. A fork of [react-doctor](https://github.com/millionco/react-doctor)
+with 39 Convex rules grounded in [docs.convex.dev](https://docs.convex.dev) and
+[stack.convex.dev](https://stack.convex.dev/tag/Patterns).
 
-React Doctor deterministically scans your codebase and finds issues across state & effects, performance, architecture, security, and accessibility.
+## Packages
 
-Works for all React frameworks and libraries - Next.js, Vite, TanStack, React Native, Expo, you name it.
+| Package                                                                                                | What it is                                                                         |
+| ------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------- |
+| [`react-convex-doctor`](https://www.npmjs.com/package/react-convex-doctor)                             | The CLI. Installs two bins: `react-convex-doctor` and the shorter `convex-doctor`. |
+| [`oxlint-plugin-react-convex-doctor`](https://www.npmjs.com/package/oxlint-plugin-react-convex-doctor) | The rule engine (oxlint JS plugin) the CLI loads. Published alongside the CLI.     |
 
-[Website →](https://react.doctor/docs)
-
-## Install
-
-### 1. Quick start
-
-Run this at your project root to get an audit.
+## Quick start
 
 ```bash
-npx react-doctor@latest
+npx react-convex-doctor@latest          # scan the current project
+npx react-convex-doctor@latest ./apps/web
+npx react-convex-doctor@latest --verbose   # list every finding inline
+npx react-convex-doctor@latest --json > report.json
 ```
 
-https://github.com/user-attachments/assets/07cc88d9-9589-44c3-aa73-5d603cb1c570
-
-### 2. Install for agents
-
-Once you have an audit, you can install the skill for your coding agent to learn from the issues and fix them in the future.
+From a clone of this repo (no install):
 
 ```bash
-npx react-doctor@latest install
+pnpm install && pnpm build
+node packages/react-doctor/bin/react-doctor.js <path-to-project>
+pnpm example:nextjs   # scan the vendored official Convex Next.js template
 ```
 
-Works with Claude Code, Cursor, Codex, OpenCode, and many more.
+## What it checks
 
-### 3. Run in CI
+When a `convex` dependency is detected the scan is **Convex-first**: the 39
+`convex-*` rules plus the framework-agnostic JavaScript rules run, and the
+React-runtime rule families stay off so the report focuses on the backend.
 
-React Doctor CI (GitHub Actions) reviews every pull request automatically and reports only the issues your change introduced, not your existing backlog.
+- **Security** — public functions without argument validators or auth checks,
+  client-supplied user IDs trusted without `ctx.auth`, scheduler/crons
+  targeting `api.*` instead of `internal.*`, hardcoded secrets.
+- **Correctness** — `ctx.db` in actions, unawaited db writes / scheduler calls /
+  async maps, `fetch`/timers in queries, `Date.now()` in cached queries,
+  `"use node"` runtime mismatches, legacy function syntax, misplaced
+  `defineSchema`/`httpRouter`.
+- **Performance** — `.filter()` on db queries, unbounded `.collect()`,
+  collect-to-count, db calls in loops, sequential `ctx.run*` transactions,
+  redundant indexes.
+- **TypeScript & architecture** — untyped `ctx` helpers, `api.*` self-calls
+  (circular types), `string` where `Id<"table">` belongs.
+- **React client** — `undefined` instead of `"skip"`, conditional Convex hooks,
+  query results used before the loading check, dropped mutation promises.
 
-[Add GitHub Action →](https://react.doctor/docs/ci-and-prs/github-actions-setup)
+Every finding carries a fix recommendation linking the relevant
+[docs.convex.dev](https://docs.convex.dev) page. See
+[`examples/README.md`](https://github.com/Vinniai/convex-doctor/blob/main/examples/README.md)
+for real output and a scoreboard of all 21 official Convex templates
+(scores 88–100).
 
-### 4. Configure rules
+## Scan modes
 
-You can configure which rules to run and how to run them in `doctor.config.ts`.
+```bash
+# Convex only — the default, nothing to configure
+npx react-convex-doctor .
 
-[Learn more →](https://react.doctor/docs/configuration/config-files)
+# Convex + React together (full react-doctor rule set on the client code)
+echo '{"reactRules": true}' > react-doctor.config.json
 
-## Telemetry
+# React only — every convex rule carries the "convex" tag
+echo '{"reactRules": true, "ignore": {"tags": ["convex"]}}' > react-doctor.config.json
+```
 
-The CLI reports crashes, basic run traces, and anonymous usage counters to [Sentry](https://sentry.io/) to help us fix bugs and prioritize work.
+Individual rules can be re-enabled or silenced via the `rules` map in
+`react-doctor.config.json`; per-rule overrides always win over the mode.
 
-We collect:
+## Privacy defaults
 
-- Environment: CLI version, platform, Node version
-- Invocation: which command, package manager, and run context (whether it's local vs. CI vs. coding agent)
-- Project shape: framework, React version, TypeScript, project size NO file contents)
-- Rules fired: rule names and counts only (e.g. `react-doctor/no-array-index-as-key`) (NO code or specific findings)
-- De-minified React Doctor CLI stack traces
+This fork is **fully offline by default**:
 
-To opt out, run: `npx react-doctor@latest --no-telemetry`
+- The 0–100 score is computed locally (deterministic severity-weighted model);
+  no diagnostics leave your machine. Set `"localScore": false` to opt into the
+  upstream hosted score API instead.
+- Crash telemetry is disabled unless you explicitly set
+  `REACT_DOCTOR_TELEMETRY=1`.
+- The Socket.dev supply-chain check is the one remaining network call (one
+  request per direct dependency); disable with
+  `{"supplyChain": {"enabled": false}}`.
 
-## Contributing
+## Development
 
-[Issues welcome!](https://github.com/millionco/react-doctor/issues)
+```bash
+pnpm install
+pnpm build         # build all packages
+pnpm test          # core + CLI + api + language-server suites
+cd packages/oxlint-plugin-react-doctor && npx vp test run   # all 7k rule tests
+pnpm example:nextjs
+```
 
-MIT-licensed
+Rules live in `packages/oxlint-plugin-react-doctor/src/plugin/rules/convex-*/`,
+one file per rule with a colocated test; run `pnpm gen` there after adding one.
+
+Releasing: `pnpm build`, then `pnpm publish --access public --no-git-checks` in
+`packages/oxlint-plugin-react-doctor` first, then in `packages/react-doctor`.
+
+## Credit & license
+
+Forked from [react-doctor](https://github.com/millionco/react-doctor) by
+Million Software, Inc — the engine, the React/Next.js/React Native rule set,
+and the CLI architecture are theirs. MIT-licensed, as is this fork.
+
+[Issues welcome!](https://github.com/Vinniai/convex-doctor/issues)
