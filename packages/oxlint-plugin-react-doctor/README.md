@@ -7,7 +7,7 @@
 [Convex](https://convex.dev) backends — and the React clients around them —
 for security, performance, correctness, accessibility, and architecture issues.
 
-This package owns the rule implementations: **39 `convex-*` rules** (grounded in
+This package owns the rule implementations: **44 `convex-*` rules** (grounded in
 [docs.convex.dev](https://docs.convex.dev) and
 [stack.convex.dev](https://stack.convex.dev/tag/Patterns)) plus the full
 react-doctor rule set it forked from (~290 React/Next.js/React Native/a11y
@@ -21,10 +21,10 @@ rules, including the OXC `react/*` + `jsx-a11y/*` ports and the
 | ------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `convex-security`   | `convex-no-unvalidated-args`, `convex-require-auth-check`, `convex-scheduler-internal-only`, `convex-crons-internal-only`, `convex-no-untrusted-user-id`, `convex-no-hardcoded-secrets` |
 | `convex-db`         | `convex-no-filter-in-query`, `convex-no-unbounded-collect`, `convex-avoid-db-in-loop`, `convex-no-sequential-ctx-run`, `convex-avoid-redundant-indexes`                                 |
-| `convex-functions`  | `convex-no-ctx-db-in-action`, `convex-no-floating-db-write`, `convex-no-date-now-in-query`, `convex-no-fetch-in-query`, `convex-no-use-node-with-query`, `convex-prefer-convex-error`   |
+| `convex-functions`  | `convex-no-ctx-db-in-action`, `convex-no-db-write-in-query`, `convex-explicit-table-ids`, `convex-paginate-requires-opts-validator`, `convex-no-multiple-paginate`, `convex-no-floating-db-write`, `convex-prefer-convex-error` |
 | `convex-schema`     | `convex-schema-no-reserved-fields`, `convex-schema-define-in-schema-file`, `convex-prefer-v-id`                                                                                         |
 | `convex-typescript` | `convex-annotate-helper-ctx`, `convex-no-api-self-call`, `convex-prefer-id-type`                                                                                                        |
-| `convex-react`      | `convex-usequery-skip-pattern`, `convex-no-conditional-convex-hooks`, `convex-usequery-undefined-check`, `convex-mutation-floating-promise`                                             |
+| `convex-react`      | `convex-usequery-skip-pattern`, `convex-no-conditional-convex-hooks`, `convex-usequery-undefined-check`, `convex-mutation-floating-promise`, `convex-prefer-use-paginated-query`        |
 
 All Convex rules detect registrations by **import** (builders imported from
 `convex/_generated/server`), never by bare identifier names, so same-named

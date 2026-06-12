@@ -20,7 +20,7 @@ committing.
 ## Scan modes — pick deliberately
 
 On a project with a `convex` dependency the default is **Convex-first**: the
-39 `convex-*` rules plus framework-agnostic JS rules run, and React-runtime
+44 `convex-*` rules plus framework-agnostic JS rules run, and React-runtime
 rules stay off so the report focuses on the backend.
 
 ```bash

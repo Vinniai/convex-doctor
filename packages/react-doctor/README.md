@@ -6,7 +6,7 @@ A Convex-first code doctor: deterministically scans your [Convex](https://convex
 backend — functions, schemas, scheduling, and the React client hooks — for
 security, correctness, performance, and maintainability issues, and scores the
 project 0–100. A fork of [react-doctor](https://github.com/millionco/react-doctor)
-with 39 Convex rules grounded in [docs.convex.dev](https://docs.convex.dev) and
+with 44 Convex rules grounded in [docs.convex.dev](https://docs.convex.dev) and
 [stack.convex.dev](https://stack.convex.dev/tag/Patterns).
 
 ## Packages

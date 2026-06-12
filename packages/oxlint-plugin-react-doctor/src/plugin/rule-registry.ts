@@ -33,18 +33,21 @@ import { convexAnnotateHelperCtx } from "./rules/convex-typescript/convex-annota
 import { convexAvoidDbInLoop } from "./rules/convex-db/convex-avoid-db-in-loop.js";
 import { convexAvoidRedundantIndexes } from "./rules/convex-db/convex-avoid-redundant-indexes.js";
 import { convexCronsInternalOnly } from "./rules/convex-security/convex-crons-internal-only.js";
+import { convexExplicitTableIds } from "./rules/convex-functions/convex-explicit-table-ids.js";
 import { convexHttpRouterInHttpFile } from "./rules/convex-functions/convex-http-router-in-http-file.js";
 import { convexMutationFloatingPromise } from "./rules/convex-react/convex-mutation-floating-promise.js";
 import { convexNoApiSelfCall } from "./rules/convex-typescript/convex-no-api-self-call.js";
 import { convexNoConditionalConvexHooks } from "./rules/convex-react/convex-no-conditional-convex-hooks.js";
 import { convexNoCtxDbInAction } from "./rules/convex-functions/convex-no-ctx-db-in-action.js";
 import { convexNoDateNowInQuery } from "./rules/convex-functions/convex-no-date-now-in-query.js";
+import { convexNoDbWriteInQuery } from "./rules/convex-functions/convex-no-db-write-in-query.js";
 import { convexNoFetchInQuery } from "./rules/convex-functions/convex-no-fetch-in-query.js";
 import { convexNoFilterInQuery } from "./rules/convex-db/convex-no-filter-in-query.js";
 import { convexNoFloatingAsyncMap } from "./rules/convex-functions/convex-no-floating-async-map.js";
 import { convexNoFloatingDbWrite } from "./rules/convex-functions/convex-no-floating-db-write.js";
 import { convexNoFloatingScheduler } from "./rules/convex-functions/convex-no-floating-scheduler.js";
 import { convexNoHardcodedSecrets } from "./rules/convex-security/convex-no-hardcoded-secrets.js";
+import { convexNoMultiplePaginate } from "./rules/convex-functions/convex-no-multiple-paginate.js";
 import { convexNoOldFunctionSyntax } from "./rules/convex-functions/convex-no-old-function-syntax.js";
 import { convexNoRunActionFromMutation } from "./rules/convex-db/convex-no-run-action-from-mutation.js";
 import { convexNoSequentialCtxRun } from "./rules/convex-db/convex-no-sequential-ctx-run.js";
@@ -56,10 +59,12 @@ import { convexNoUntrustedUserId } from "./rules/convex-security/convex-no-untru
 import { convexNoUnvalidatedArgs } from "./rules/convex-security/convex-no-unvalidated-args.js";
 import { convexNoUseNodeWithQuery } from "./rules/convex-functions/convex-no-use-node-with-query.js";
 import { convexNodeImportWithoutUseNode } from "./rules/convex-functions/convex-node-import-without-use-node.js";
+import { convexPaginateRequiresOptsValidator } from "./rules/convex-functions/convex-paginate-requires-opts-validator.js";
 import { convexPreferConvexError } from "./rules/convex-functions/convex-prefer-convex-error.js";
 import { convexPreferHelpersOverCtxRun } from "./rules/convex-db/convex-prefer-helpers-over-ctx-run.js";
 import { convexPreferIdType } from "./rules/convex-typescript/convex-prefer-id-type.js";
 import { convexPreferTakeOverCollectLength } from "./rules/convex-db/convex-prefer-take-over-collect-length.js";
+import { convexPreferUsePaginatedQuery } from "./rules/convex-react/convex-prefer-use-paginated-query.js";
 import { convexPreferVId } from "./rules/convex-schema/convex-prefer-v-id.js";
 import { convexRequireAuthCheck } from "./rules/convex-security/convex-require-auth-check.js";
 import { convexRequireReturnsValidator } from "./rules/convex-functions/convex-require-returns-validator.js";
@@ -689,6 +694,19 @@ export const reactDoctorRules = [
     },
   },
   {
+    key: "react-doctor/convex-explicit-table-ids",
+    id: "convex-explicit-table-ids",
+    source: "react-doctor",
+    originallyExternal: false,
+    rule: {
+      ...convexExplicitTableIds,
+      framework: "global",
+      category: "Bugs",
+      tags: [...new Set(["convex", ...(convexExplicitTableIds.tags ?? [])])],
+      requires: [...new Set(["convex", ...(convexExplicitTableIds.requires ?? [])])],
+    },
+  },
+  {
     key: "react-doctor/convex-http-router-in-http-file",
     id: "convex-http-router-in-http-file",
     source: "react-doctor",
@@ -771,6 +789,19 @@ export const reactDoctorRules = [
     },
   },
   {
+    key: "react-doctor/convex-no-db-write-in-query",
+    id: "convex-no-db-write-in-query",
+    source: "react-doctor",
+    originallyExternal: false,
+    rule: {
+      ...convexNoDbWriteInQuery,
+      framework: "global",
+      category: "Bugs",
+      tags: [...new Set(["convex", ...(convexNoDbWriteInQuery.tags ?? [])])],
+      requires: [...new Set(["convex", ...(convexNoDbWriteInQuery.requires ?? [])])],
+    },
+  },
+  {
     key: "react-doctor/convex-no-fetch-in-query",
     id: "convex-no-fetch-in-query",
     source: "react-doctor",
@@ -846,6 +877,19 @@ export const reactDoctorRules = [
       category: "Security",
       tags: [...new Set(["convex", ...(convexNoHardcodedSecrets.tags ?? [])])],
       requires: [...new Set(["convex", ...(convexNoHardcodedSecrets.requires ?? [])])],
+    },
+  },
+  {
+    key: "react-doctor/convex-no-multiple-paginate",
+    id: "convex-no-multiple-paginate",
+    source: "react-doctor",
+    originallyExternal: false,
+    rule: {
+      ...convexNoMultiplePaginate,
+      framework: "global",
+      category: "Bugs",
+      tags: [...new Set(["convex", ...(convexNoMultiplePaginate.tags ?? [])])],
+      requires: [...new Set(["convex", ...(convexNoMultiplePaginate.requires ?? [])])],
     },
   },
   {
@@ -992,6 +1036,19 @@ export const reactDoctorRules = [
     },
   },
   {
+    key: "react-doctor/convex-paginate-requires-opts-validator",
+    id: "convex-paginate-requires-opts-validator",
+    source: "react-doctor",
+    originallyExternal: false,
+    rule: {
+      ...convexPaginateRequiresOptsValidator,
+      framework: "global",
+      category: "Bugs",
+      tags: [...new Set(["convex", ...(convexPaginateRequiresOptsValidator.tags ?? [])])],
+      requires: [...new Set(["convex", ...(convexPaginateRequiresOptsValidator.requires ?? [])])],
+    },
+  },
+  {
     key: "react-doctor/convex-prefer-convex-error",
     id: "convex-prefer-convex-error",
     source: "react-doctor",
@@ -1041,6 +1098,21 @@ export const reactDoctorRules = [
       category: "Performance",
       tags: [...new Set(["convex", ...(convexPreferTakeOverCollectLength.tags ?? [])])],
       requires: [...new Set(["convex", ...(convexPreferTakeOverCollectLength.requires ?? [])])],
+    },
+  },
+  {
+    key: "react-doctor/convex-prefer-use-paginated-query",
+    id: "convex-prefer-use-paginated-query",
+    source: "react-doctor",
+    originallyExternal: false,
+    rule: {
+      ...convexPreferUsePaginatedQuery,
+      framework: "global",
+      category: "Bugs",
+      tags: [...new Set(["convex", ...(convexPreferUsePaginatedQuery.tags ?? [])])],
+      requires: [
+        ...new Set(["react", "convex", ...(convexPreferUsePaginatedQuery.requires ?? [])]),
+      ],
     },
   },
   {
