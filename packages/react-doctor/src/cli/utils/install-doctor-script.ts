@@ -4,9 +4,9 @@ import { spinner } from "./spinner.js";
 import * as fs from "node:fs";
 
 const DOCTOR_SCRIPT_NAME = "doctor";
-const FALLBACK_DOCTOR_SCRIPT_NAME = "react-doctor";
-const DOCTOR_SCRIPT_COMMAND = "npx react-doctor@latest";
-export const DOCTOR_PACKAGE_NAME = "react-doctor";
+const FALLBACK_DOCTOR_SCRIPT_NAME = "react-convex-doctor";
+const DOCTOR_SCRIPT_COMMAND = "npx react-convex-doctor@latest";
+export const DOCTOR_PACKAGE_NAME = "react-convex-doctor";
 
 const DEPENDENCY_FIELD_NAMES: readonly string[] = [
   "dependencies",
@@ -31,7 +31,7 @@ export interface InstallDoctorScriptResult {
 }
 
 const isReactDoctorScriptCommand = (value: unknown): boolean =>
-  typeof value === "string" && /\breact-doctor\b/.test(value);
+  typeof value === "string" && /\breact(?:-convex)?-doctor\b/.test(value);
 
 export const findNearestPackageDirectory = (
   startDirectory: string,

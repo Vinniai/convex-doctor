@@ -1,6 +1,6 @@
 {
   "name": "react-convex-doctor",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Convex-first doctor for Convex + React codebases: scans convex/ functions, schemas, and client hooks for security, performance, and correctness issues",
   "keywords": [
     "accessibility",

@@ -51,21 +51,21 @@ exports[`in-process render across terminal widths and render modes > matches the
   Performance > 1 warning
   Maintainability > 1 error
 
-  Run npx react-doctor@latest --verbose to list every error and warning
+  Run npx react-convex-doctor@latest --verbose to list every error and warning
 
   ┌─────┐  99 / 100 Great
   │ ◠ ◠ │  ██████████████████████████████████████████████████
-  │  ▽  │  React Doctor (https://react.doctor)
+  │  ▽  │  React Convex Doctor (github.com/Vinniai/convex-doctor)
   └─────┘
 
 
   ────────────────────────────────────────────────────────────
 
-  Docs: https://react.doctor/docs
+  Docs: https://github.com/Vinniai/convex-doctor#readme
   Learn more about fixing issues, setting up CI/CD, and
   configuring rules with a config file
 
-  GitHub: https://github.com/millionco/react-doctor
+  GitHub: https://github.com/Vinniai/convex-doctor
   Report issues and star the repository!"
 `;
 

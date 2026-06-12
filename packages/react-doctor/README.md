@@ -77,6 +77,48 @@ echo '{"reactRules": true, "ignore": {"tags": ["convex"]}}' > react-doctor.confi
 Individual rules can be re-enabled or silenced via the `rules` map in
 `react-doctor.config.json`; per-rule overrides always win over the mode.
 
+## Run in CI
+
+There is no hosted CI action for this fork — run the CLI directly. It exits
+non-zero when error-severity findings exist (tune with `--blocking
+error|warning|none`), and `--scope changed` reports only the issues a change
+introduced.
+
+**GitHub Actions** (`.github/workflows/convex-doctor.yml`):
+
+```yaml
+name: Convex Doctor
+on:
+  pull_request:
+jobs:
+  convex-doctor:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0 # full history so --scope changed can diff against the base
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+      - run: npx react-convex-doctor@latest --verbose --scope changed --base origin/${{ github.base_ref }}
+```
+
+**GitLab CI** (`.gitlab-ci.yml`):
+
+```yaml
+convex-doctor:
+  image: node:22
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+  script:
+    - git fetch origin "$CI_MERGE_REQUEST_TARGET_BRANCH_NAME"
+    - npx react-convex-doctor@latest --verbose --scope changed --base "origin/$CI_MERGE_REQUEST_TARGET_BRANCH_NAME"
+```
+
+For a full-project gate instead of changed-only, drop the `--scope`/`--base`
+flags. Scans are fully offline by default (local score, no uploads), so no
+secrets or tokens are needed.
+
 ## Privacy defaults
 
 This fork is **fully offline by default**:

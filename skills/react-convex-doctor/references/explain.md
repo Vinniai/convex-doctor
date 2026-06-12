@@ -1,8 +1,8 @@
 # Explaining and configuring rules
 
-Explain React Doctor rules and edit `doctor.config.*` safely. Use this when a user
+Explain React Convex Doctor rules and edit `doctor.config.*` safely. Use this when a user
 wants to understand a rule or change which rules run — not for fixing diagnostics
-(that is the main `react-doctor` skill / `/doctor`).
+(that is the main `react-convex-doctor` skill / `/doctor`).
 
 Triggers: "why did this rule fire", "I disagree with this rule", "turn this rule off",
 "stop flagging X", "too noisy", "disable design rules".
@@ -13,7 +13,7 @@ Triggers: "why did this rule fire", "I disagree with this rule", "turn this rule
 2. Explain it before changing anything:
 
 ```bash
-npx react-doctor@latest rules explain react-doctor/no-array-index-as-key
+npx react-convex-doctor@latest rules explain react-doctor/no-array-index-as-key
 ```
 
 3. Pick the narrowest control that matches the user's intent (see decision guide).
@@ -21,22 +21,22 @@ npx react-doctor@latest rules explain react-doctor/no-array-index-as-key
 5. Validate the change did what they wanted:
 
 ```bash
-npx react-doctor@latest --verbose --diff
+npx react-convex-doctor@latest --verbose --diff
 ```
 
 ## Commands
 
 ```bash
-npx react-doctor@latest rules list                         # every rule + its effective severity
-npx react-doctor@latest rules list --configured            # only what your config changed
-npx react-doctor@latest rules list --category Performance   # filter by category
-npx react-doctor@latest rules explain <rule>               # why it matters + how to configure
-npx react-doctor@latest rules disable <rule>               # rule never runs
-npx react-doctor@latest rules enable <rule>                # turn back on at its recommended severity
-npx react-doctor@latest rules set <rule> warn              # off | warn | error
-npx react-doctor@latest rules category "React Native" off   # whole category
-npx react-doctor@latest rules ignore-tag design            # skip a rule family (design, test-noise, …)
-npx react-doctor@latest rules unignore-tag design
+npx react-convex-doctor@latest rules list                         # every rule + its effective severity
+npx react-convex-doctor@latest rules list --configured            # only what your config changed
+npx react-convex-doctor@latest rules list --category Performance   # filter by category
+npx react-convex-doctor@latest rules explain <rule>               # why it matters + how to configure
+npx react-convex-doctor@latest rules disable <rule>               # rule never runs
+npx react-convex-doctor@latest rules enable <rule>                # turn back on at its recommended severity
+npx react-convex-doctor@latest rules set <rule> warn              # off | warn | error
+npx react-convex-doctor@latest rules category "React Native" off   # whole category
+npx react-convex-doctor@latest rules ignore-tag design            # skip a rule family (design, test-noise, …)
+npx react-convex-doctor@latest rules unignore-tag design
 ```
 
 Rule references accept the full key (`react-doctor/no-danger`), the bare id (`no-danger`), or a legacy key (`react/no-danger`).

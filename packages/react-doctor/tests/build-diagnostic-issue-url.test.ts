@@ -26,7 +26,7 @@ describe("buildDiagnosticIssueUrl", () => {
     const body = issueUrl.searchParams.get("body") ?? "";
 
     expect(issueUrl.origin + issueUrl.pathname).toBe(
-      "https://github.com/millionco/react-doctor/issues/new",
+      "https://github.com/Vinniai/convex-doctor/issues/new",
     );
     expect(issueUrl.searchParams.get("title")).toBe(
       "Diagnostic follow-up: react-doctor/no-set-state-in-render",

@@ -191,8 +191,8 @@ const getDoctorFace = (score: number): string[] => {
   return ["x x", " ▽ "];
 };
 
-const BRANDING_LINE = `React Doctor ${highlighter.dim("(https://react.doctor)")}`;
-const RAW_BRANDING_LINE = "React Doctor (https://react.doctor)";
+const BRANDING_LINE = `React Convex Doctor ${highlighter.dim("(github.com/Vinniai/convex-doctor)")}`;
+const RAW_BRANDING_LINE = "React Convex Doctor (github.com/Vinniai/convex-doctor)";
 
 const buildRawFaceLines = (score: number): string[] => {
   const [eyes, mouth] = getDoctorFace(score);

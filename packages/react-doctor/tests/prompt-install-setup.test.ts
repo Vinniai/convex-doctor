@@ -241,7 +241,7 @@ describe("shouldShowAgentInstallHint", () => {
 
   it("returns false when the doctor script already exists", () => {
     writePackageJson(fixture.projectRoot, {
-      scripts: { doctor: "react-doctor" },
+      scripts: { doctor: "react-convex-doctor" },
     });
 
     expect(
@@ -307,7 +307,7 @@ describe("shouldShowAgentInstallHint", () => {
 
   it("returns false when the fallback react-doctor script exists", () => {
     writePackageJson(fixture.projectRoot, {
-      scripts: { doctor: "vitest", "react-doctor": "npx react-doctor@latest" },
+      scripts: { doctor: "vitest", "react-convex-doctor": "npx react-convex-doctor@latest" },
     });
 
     expect(
@@ -351,7 +351,7 @@ describe("printAgentInstallHint", () => {
     });
     const output = writtenLines.join("\n");
 
-    expect(output).toContain("npx react-doctor install --yes");
+    expect(output).toContain("npx react-convex-doctor install --yes");
     expect(output).toContain("not installed");
     expect(output).toContain("Ask the user");
   });
@@ -359,7 +359,9 @@ describe("printAgentInstallHint", () => {
   it("AGENT_INSTALL_HINT_LINES contains the install command", () => {
     expect(AGENT_INSTALL_HINT_LINES.length).toBeGreaterThan(0);
     expect(
-      AGENT_INSTALL_HINT_LINES.some((line) => line.includes("npx react-doctor install --yes")),
+      AGENT_INSTALL_HINT_LINES.some((line) =>
+        line.includes("npx react-convex-doctor install --yes"),
+      ),
     ).toBe(true);
   });
 });

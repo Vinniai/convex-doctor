@@ -1,6 +1,5 @@
 import { GITHUB_ACTIONS_SETUP_URL, highlighter } from "@react-doctor/core";
 import { cliLogger as logger } from "./cli-logger.js";
-import { CI_TRUST_COMPANIES } from "./constants.js";
 import { openUrl } from "./open-url.js";
 import { prompts } from "./prompts.js";
 
@@ -22,7 +21,6 @@ const SGR_BOLD_OFF = "\x1b[22m";
 const ciQuestionMessage = [
   "Add React Doctor to GitHub Actions?",
   `${SGR_BOLD_OFF}  ${highlighter.dim("Scan every pull request to prevent new React issues while you fix the backlog.")}`,
-  `${SGR_BOLD_OFF}  ${highlighter.dim(`Used by teams at ${CI_TRUST_COMPANIES}.`)}`,
 ].join("\n");
 
 export type CiPromptOutcome = "yes" | "no" | "cancel";

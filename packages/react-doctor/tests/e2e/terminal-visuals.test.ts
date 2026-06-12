@@ -399,7 +399,9 @@ describe("non-verbose overflow summary line", () => {
       makeDiagnostic("rule-a", "error", 1),
       makeDiagnostic("rule-a", "error", 2),
     ]);
-    expect(text).toContain("Run npx react-doctor@latest --verbose to list every error and warning");
+    expect(text).toContain(
+      "Run npx react-convex-doctor@latest --verbose to list every error and warning",
+    );
   });
 
   it("shows the CTA when warnings are hidden from the top-errors detail", async () => {
@@ -408,7 +410,9 @@ describe("non-verbose overflow summary line", () => {
       makeDiagnostic("hoist", "warning", 2),
       makeDiagnostic("hoist", "warning", 3),
     ]);
-    expect(text).toContain("Run npx react-doctor@latest --verbose to list every error and warning");
+    expect(text).toContain(
+      "Run npx react-convex-doctor@latest --verbose to list every error and warning",
+    );
   });
 
   it("never echoes the +N stats already shown in the category breakdown", async () => {
@@ -420,7 +424,9 @@ describe("non-verbose overflow summary line", () => {
       makeDiagnostic("warn-1", "warning", 5),
       makeDiagnostic("warn-1", "warning", 6),
     ]);
-    expect(text).toContain("Run npx react-doctor@latest --verbose to list every error and warning");
+    expect(text).toContain(
+      "Run npx react-convex-doctor@latest --verbose to list every error and warning",
+    );
     expect(text).not.toContain("more rule");
     expect(text).not.toContain("optional warning");
   });

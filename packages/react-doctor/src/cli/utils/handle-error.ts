@@ -119,9 +119,7 @@ const handleErrorEffect = (
         `If the problem persists, please open this prefilled issue: ${buildErrorIssueUrl(error, sentryEventId)}`,
       ),
     );
-    yield* Console.error(
-      highlighter.error(`You can also ask for help in Discord: ${CANONICAL_DISCORD_URL}`),
-    );
+    yield* Console.error(highlighter.error(`You can also open an issue: ${CANONICAL_DISCORD_URL}`));
     if (sentryEventId) {
       yield* Console.error(
         highlighter.error(`Reference (mention this when reporting): ${sentryEventId}`),

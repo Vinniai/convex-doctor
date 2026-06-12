@@ -447,7 +447,7 @@ const buildOverflowSummaryLine = (
   const shownErrorRuleCount = Math.min(TOP_ERRORS_DISPLAY_COUNT, errorRuleGroups.length);
   if (diagnostics.length <= shownErrorRuleCount) return undefined;
 
-  const command = highlighter.bold(highlighter.info("npx react-doctor@latest --verbose"));
+  const command = highlighter.bold(highlighter.info("npx react-convex-doctor@latest --verbose"));
   return `  ${highlighter.dim("Run")} ${command} ${highlighter.dim("to list every error and warning")}`;
 };
 

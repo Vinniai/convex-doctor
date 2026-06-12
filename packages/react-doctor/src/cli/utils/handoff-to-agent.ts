@@ -170,28 +170,37 @@ export const handoffToAgent = async (input: HandoffToAgentInput): Promise<void> 
 
   logger.break();
 
-  const projectRootForCi = findNearestPackageDirectory(input.rootDirectory) ?? input.rootDirectory;
-  const isGitHubActionsConfigured = isReactDoctorWorkflowInstalled(projectRootForCi);
+  // FORK: no published GitHub Action exists for react-convex-doctor
+  // (`millionco/react-doctor@v2` is upstream's), so the post-scan CI
+  // install/upgrade offers are disabled. CI users run
+  // `npx react-convex-doctor@latest` directly — see the README's
+  // "Run in CI" section for GitHub Actions and GitLab CI examples.
+  const forkHasCiAction = false;
+  if (forkHasCiAction) {
+    const projectRootForCi =
+      findNearestPackageDirectory(input.rootDirectory) ?? input.rootDirectory;
+    const isGitHubActionsConfigured = isReactDoctorWorkflowInstalled(projectRootForCi);
 
-  // CI question first, only when it has anything to do. A "yes" sets up the
-  // workflow inline and then falls through to the agent question, so a user
-  // can install CI AND launch an agent in one scan — previously the combined
-  // prompt forced an either/or choice.
-  if (!isGitHubActionsConfigured) {
-    const ciOutcome = await askAddToGitHubActions();
-    recordCount(METRIC.agentHandoff, 1, {
-      outcome: `ci-${ciOutcome}`,
-      diagnosticsCount: input.diagnostics.length,
-    });
-    if (ciOutcome === "cancel") return;
-    if (ciOutcome === "yes") {
-      await setUpGitHubActions({ rootDirectory: input.rootDirectory });
-      logger.break();
+    // CI question first, only when it has anything to do. A "yes" sets up the
+    // workflow inline and then falls through to the agent question, so a user
+    // can install CI AND launch an agent in one scan — previously the combined
+    // prompt forced an either/or choice.
+    if (!isGitHubActionsConfigured) {
+      const ciOutcome = await askAddToGitHubActions();
+      recordCount(METRIC.agentHandoff, 1, {
+        outcome: `ci-${ciOutcome}`,
+        diagnosticsCount: input.diagnostics.length,
+      });
+      if (ciOutcome === "cancel") return;
+      if (ciOutcome === "yes") {
+        await setUpGitHubActions({ rootDirectory: input.rootDirectory });
+        logger.break();
+      }
+    } else {
+      // Workflow already present: offer the one-time `@v1` → `@v2` upgrade
+      // instead. Mutually exclusive with the "add" prompt above.
+      await maybeOfferActionUpgrade(projectRootForCi);
     }
-  } else {
-    // Workflow already present: offer the one-time `@v1` → `@v2` upgrade
-    // instead. Mutually exclusive with the "add" prompt above.
-    await maybeOfferActionUpgrade(projectRootForCi);
   }
 
   const launchableAgents = await detectLaunchableAgents();

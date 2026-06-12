@@ -73,31 +73,34 @@ export const SCORE_BAR_WIDTH_CHARS = 50;
 
 export const SCORE_API_URL = "https://www.react.doctor/api/score";
 
-export const ENTERPRISE_CONTACT_URL = "https://react.doctor/enterprise";
+export const ENTERPRISE_CONTACT_URL = "https://github.com/Vinniai/convex-doctor/issues";
 
 export const SHARE_BASE_URL = "https://react.doctor/share";
 
 // Guide for adding React Doctor to CI (GitHub Actions). The post-scan
 // handoff prompt links here when offering the "Add to CI" setup, and the
 // agent-handoff prompt points the agent here too.
-export const CI_URL = "https://react.doctor/ci";
+export const CI_URL = "https://github.com/Vinniai/convex-doctor#run-in-ci";
 
 // Canonical GitHub Actions setup guide. The interactive "Add React Doctor to
 // GitHub Actions?" prompt's "Read docs" choice opens this directly.
-export const GITHUB_ACTIONS_SETUP_URL =
-  "https://www.react.doctor/docs/ci-and-prs/github-actions-setup";
+export const GITHUB_ACTIONS_SETUP_URL = "https://github.com/Vinniai/convex-doctor#run-in-ci";
 
 // Root of the documentation site. Guides for CI/CD setup, config files (to
 // suppress rules), and diff/PR scanning live under it; the CLI links here
 // from its closing "learn more" note.
-export const DOCS_URL = "https://react.doctor/docs";
+export const DOCS_URL = "https://github.com/Vinniai/convex-doctor#readme";
 
 // Base URL for the per-rule documentation pages. The canonical,
 // human-readable fix recipe for one rule lives at `<base>/<plugin>/<rule>`
 // (see `buildRuleDocsUrl`) — the CLI links here from its fix-recipe
 // directive. The raw `.md` prompts the `/doctor` playbook fetches on demand
 // live under `https://www.react.doctor/prompts/rules/<plugin>/<rule>.md`.
-export const DOCS_RULES_BASE_URL = `${DOCS_URL}/rules`;
+// Pinned to upstream: per-rule docs pages only exist on react.doctor and
+// only for the upstream rule set (the fork's `convex-*` rules carry their
+// full fix guidance inline in the recommendation text instead — see
+// `hasPublishedFixRecipe`).
+export const DOCS_RULES_BASE_URL = "https://react.doctor/docs/rules";
 
 // Canonical JSON Schema for `doctor.config.json`. Stamped as the
 // `$schema` field when the rule-config CLI creates a config file so
@@ -220,11 +223,11 @@ export const CONFIG_FINGERPRINT_FILENAMES = [
   ".gitignore",
 ] as const;
 
-export const CANONICAL_GITHUB_URL = "https://github.com/millionco/react-doctor";
+export const CANONICAL_GITHUB_URL = "https://github.com/Vinniai/convex-doctor";
 
-export const CANONICAL_DISCORD_URL = "https://react.doctor/discord";
+export const CANONICAL_DISCORD_URL = "https://github.com/Vinniai/convex-doctor/issues";
 
-export const SKILL_NAME = "react-doctor";
+export const SKILL_NAME = "react-convex-doctor";
 
 // HACK: cap on combined stdout+stderr bytes per oxlint batch. Above
 // this we kill the process (SIGKILL) and ask the user to narrow the

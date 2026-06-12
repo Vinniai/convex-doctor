@@ -37,8 +37,8 @@ describe("buildHandoffPayload", () => {
     expect(payload).toContain(`Fix the top ${TOP_ERRORS_DISPLAY_COUNT}`);
     expect(payload).toContain("demo");
     // The agent is told to offer CI first, with the trust pitch + guide link.
-    expect(payload).toContain("add React Doctor to CI");
-    expect(payload).toContain("https://react.doctor/ci");
+    expect(payload).toContain("add React Convex Doctor to CI");
+    expect(payload).toContain("https://github.com/Vinniai/convex-doctor#run-in-ci");
     // Exactly TOP_ERRORS_DISPLAY_COUNT numbered entries.
     expect(payload.match(/^\d+\. /gm)?.length).toBe(TOP_ERRORS_DISPLAY_COUNT);
 

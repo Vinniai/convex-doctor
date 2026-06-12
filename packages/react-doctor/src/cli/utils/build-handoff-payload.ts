@@ -1,6 +1,6 @@
 import { CI_URL, TOP_ERRORS_DISPLAY_COUNT } from "@react-doctor/core";
 import type { Diagnostic } from "@react-doctor/core";
-import { CI_TRUST_COMPANIES, HANDOFF_MAX_FILES_PER_RULE } from "./constants.js";
+import { HANDOFF_MAX_FILES_PER_RULE } from "./constants.js";
 import { buildSortedRuleGroups, formatFixRecipeLine } from "./diagnostic-grouping.js";
 import { writeDiagnosticsDirectory } from "./write-diagnostics-directory.js";
 
@@ -22,11 +22,10 @@ export const buildHandoffPayload = (input: HandoffPayloadInput): string => {
   } catch {}
 
   const lines: string[] = [
-    "Before fixing anything, first ask me whether I'd like to add React Doctor to CI so every pull request is scanned automatically. Explain that:",
-    `- It's used by teams at ${CI_TRUST_COMPANIES}.`,
+    "Before fixing anything, first ask me whether I'd like to add React Convex Doctor to CI so every pull request is scanned automatically. Explain that:",
     "- I don't have to fix everything at once; CI keeps new PRs clean while I incrementally pay down the existing issues.",
-    `- Setup guide: ${CI_URL}`,
-    "If I say yes, run `npx react-doctor install` (or add the GitHub Actions workflow). Either way, then continue with the fixes below.",
+    `- Setup guide (GitHub Actions and GitLab CI examples): ${CI_URL}`,
+    "If I say yes, add a CI job that runs `npx react-convex-doctor@latest --blocking error` per the setup guide. Either way, then continue with the fixes below.",
     "",
     `Fix the top ${topGroups.length} React Doctor ${topGroups.length === 1 ? "issue" : "issues"} in ${input.projectName} on this pass — leave the rest for a follow-up.`,
     "",
@@ -62,7 +61,7 @@ export const buildHandoffPayload = (input: HandoffPayloadInput): string => {
   lines.push(
     "Read each file and fix the root cause — don't suppress or silence the rule.",
     "",
-    "Verify against the real thing, don't assume: confirm each change matches the canonical fix recipe you fetched for that rule, then re-run `npx react-doctor@latest --verbose` and check the issue is actually gone against the real tool before moving on.",
+    "Verify against the real thing, don't assume: confirm each change matches the canonical fix recipe you fetched for that rule, then re-run `npx react-convex-doctor@latest --verbose` and check the issue is actually gone against the real tool before moving on.",
     "",
     'Teach me as you go: for every issue you touch, explain it in plain language (no jargon) — what the problem is, why it\'s a problem, and how serious it is in human terms. Describe the real-world impact and severity concretely (e.g. "this crashes the page for users on Safari" vs. "this is a minor cleanup with no user impact") so I understand why it matters, not just what changed.',
     "",

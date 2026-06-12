@@ -68,7 +68,7 @@ describe("installDoctorScript", () => {
       scriptStatus: "created",
     });
     expect(readPackageJson(fixture.projectRoot)).toMatchObject({
-      scripts: { doctor: "npx react-doctor@latest" },
+      scripts: { doctor: "npx react-convex-doctor@latest" },
     });
     expect(readPackageJson(fixture.projectRoot)).not.toHaveProperty("devDependencies");
   });
@@ -82,7 +82,7 @@ describe("installDoctorScript", () => {
 
     expect(result.packageJsonPath).toBe(path.join(fixture.projectRoot, "package.json"));
     expect(readPackageJson(fixture.projectRoot)).toMatchObject({
-      scripts: { doctor: "npx react-doctor@latest" },
+      scripts: { doctor: "npx react-convex-doctor@latest" },
     });
     expect(readPackageJson(fixture.projectRoot)).not.toHaveProperty("devDependencies");
   });
@@ -103,13 +103,13 @@ describe("installDoctorScript", () => {
     const result = installDoctorScript({ projectRoot: fixture.projectRoot });
 
     expect(result).toMatchObject({
-      scriptName: "react-doctor",
+      scriptName: "react-convex-doctor",
       scriptStatus: "created",
       scriptReason: "doctor-script-taken",
     });
     expect(readPackageJson(fixture.projectRoot).scripts).toEqual({
       doctor: "vitest --run",
-      "react-doctor": "npx react-doctor@latest",
+      "react-convex-doctor": "npx react-convex-doctor@latest",
     });
   });
 
@@ -117,7 +117,7 @@ describe("installDoctorScript", () => {
     writePackageJson(fixture.projectRoot, {
       scripts: {
         doctor: "vitest --run",
-        "react-doctor": "echo nope",
+        "react-convex-doctor": "echo nope",
       },
     });
 
@@ -129,25 +129,25 @@ describe("installDoctorScript", () => {
     });
     expect(readPackageJson(fixture.projectRoot).scripts).toEqual({
       doctor: "vitest --run",
-      "react-doctor": "echo nope",
+      "react-convex-doctor": "echo nope",
     });
   });
 
   it("treats an existing react-doctor fallback command as setup", () => {
     writePackageJson(fixture.projectRoot, {
       scripts: {
-        "react-doctor": "react-doctor --verbose",
+        "react-convex-doctor": "react-doctor --verbose",
       },
     });
 
     const result = installDoctorScript({ projectRoot: fixture.projectRoot });
 
     expect(result).toMatchObject({
-      scriptName: "react-doctor",
+      scriptName: "react-convex-doctor",
       scriptStatus: "existing",
     });
     expect(readPackageJson(fixture.projectRoot).scripts).toEqual({
-      "react-doctor": "react-doctor --verbose",
+      "react-convex-doctor": "react-doctor --verbose",
     });
     expect(hasDoctorScript(fixture.projectRoot)).toBe(true);
   });
@@ -172,7 +172,7 @@ describe("installDoctorScript", () => {
   it("still creates the script when devDependencies is not an object", () => {
     writePackageJson(fixture.projectRoot, {
       scripts: {},
-      devDependencies: "react-doctor",
+      devDependencies: "react-convex-doctor",
     });
 
     const result = installDoctorScript({ projectRoot: fixture.projectRoot });
@@ -182,8 +182,8 @@ describe("installDoctorScript", () => {
       scriptStatus: "created",
     });
     expect(readPackageJson(fixture.projectRoot)).toMatchObject({
-      scripts: { doctor: "npx react-doctor@latest" },
-      devDependencies: "react-doctor",
+      scripts: { doctor: "npx react-convex-doctor@latest" },
+      devDependencies: "react-convex-doctor",
     });
   });
 
@@ -191,7 +191,7 @@ describe("installDoctorScript", () => {
     writePackageJson(fixture.projectRoot, {
       scripts: {},
       dependencies: {
-        "react-doctor": "^1.2.3",
+        "react-convex-doctor": "^1.2.3",
       },
     });
 
@@ -199,8 +199,8 @@ describe("installDoctorScript", () => {
 
     expect(result.scriptStatus).toBe("created");
     expect(readPackageJson(fixture.projectRoot)).toMatchObject({
-      scripts: { doctor: "npx react-doctor@latest" },
-      dependencies: { "react-doctor": "^1.2.3" },
+      scripts: { doctor: "npx react-convex-doctor@latest" },
+      dependencies: { "react-convex-doctor": "^1.2.3" },
     });
     expect(readPackageJson(fixture.projectRoot)).not.toHaveProperty("devDependencies");
   });

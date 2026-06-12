@@ -45,7 +45,7 @@ const setupFixture = (): InstallReactDoctorFixture => {
 const writeValidSkill = (sourceDir: string): void => {
   fs.writeFileSync(
     path.join(sourceDir, "SKILL.md"),
-    "---\nname: react-doctor\ndescription: Test skill for install fixtures\n---\n# react-doctor\n",
+    "---\nname: react-convex-doctor\ndescription: Test skill for install fixtures\n---\n# react-convex-doctor\n",
   );
 };
 
@@ -92,7 +92,7 @@ const installDependencyForTest: NonNullable<
       !Array.isArray(packageJson.devDependencies)
         ? packageJson.devDependencies
         : {}),
-      "react-doctor": "latest",
+      "react-convex-doctor": "latest",
     },
   });
 };
@@ -308,10 +308,10 @@ describe("runInstallReactDoctor", () => {
 
     expect(readFixturePackageJson(fixture.projectRoot).scripts).toEqual({
       test: "vite-plus test",
-      doctor: "npx react-doctor@latest",
+      doctor: "npx react-convex-doctor@latest",
     });
     expect(readFixturePackageJson(fixture.projectRoot).devDependencies).toEqual({
-      "react-doctor": "latest",
+      "react-convex-doctor": "latest",
     });
   });
 
@@ -333,7 +333,7 @@ describe("runInstallReactDoctor", () => {
     expect(dependencyInstallCalls).toEqual([
       {
         command: "pnpm",
-        args: ["add", "--save-dev", "react-doctor@latest"],
+        args: ["add", "--save-dev", "react-convex-doctor@latest"],
         cwd: fixture.projectRoot,
       },
     ]);
@@ -361,12 +361,12 @@ describe("runInstallReactDoctor", () => {
     expect(dependencyInstallCalls).toEqual([
       {
         command: "npm",
-        args: ["install", "--save-dev", "react-doctor@latest"],
+        args: ["install", "--save-dev", "react-convex-doctor@latest"],
         cwd: fixture.projectRoot,
       },
     ]);
     expect(readFixturePackageJson(fixture.projectRoot).scripts).toEqual({
-      doctor: "npx react-doctor@latest",
+      doctor: "npx react-convex-doctor@latest",
     });
     expect(readFixturePackageJson(fixture.projectRoot)).not.toHaveProperty("devDependencies");
   });
@@ -391,7 +391,7 @@ describe("runInstallReactDoctor", () => {
 
     expect(process.exitCode).toBe(0);
     expect(readFixturePackageJson(fixture.projectRoot).scripts).toEqual({
-      doctor: "npx react-doctor@latest",
+      doctor: "npx react-convex-doctor@latest",
     });
     expect(readFixturePackageJson(fixture.projectRoot)).not.toHaveProperty("devDependencies");
   });
@@ -423,7 +423,7 @@ describe("runInstallReactDoctor", () => {
     expect(dependencyInstallCalls).toEqual([
       {
         command: "pnpm",
-        args: ["add", "--save-dev", "-w", "react-doctor@latest"],
+        args: ["add", "--save-dev", "-w", "react-convex-doctor@latest"],
         cwd: appDirectory,
       },
     ]);
@@ -462,10 +462,10 @@ describe("runInstallReactDoctor", () => {
     });
 
     expect(readFixturePackageJson(fixture.projectRoot).scripts).toEqual({
-      doctor: "npx react-doctor@latest",
+      doctor: "npx react-convex-doctor@latest",
     });
     expect(
-      fs.existsSync(path.join(fixture.projectRoot, ".agents/skills/react-doctor/SKILL.md")),
+      fs.existsSync(path.join(fixture.projectRoot, ".agents/skills/react-convex-doctor/SKILL.md")),
     ).toBe(true);
     expect(fs.existsSync(path.join(nestedDirectory, ".agents"))).toBe(false);
   });
@@ -490,7 +490,7 @@ describe("runInstallReactDoctor", () => {
       doctor: "pnpm react-doctor --verbose",
     });
     expect(readFixturePackageJson(fixture.projectRoot).devDependencies).toEqual({
-      "react-doctor": "latest",
+      "react-convex-doctor": "latest",
     });
   });
 
@@ -512,10 +512,10 @@ describe("runInstallReactDoctor", () => {
 
     expect(readFixturePackageJson(fixture.projectRoot).scripts).toEqual({
       doctor: "vitest --run",
-      "react-doctor": "npx react-doctor@latest",
+      "react-convex-doctor": "npx react-convex-doctor@latest",
     });
     expect(readFixturePackageJson(fixture.projectRoot).devDependencies).toEqual({
-      "react-doctor": "latest",
+      "react-convex-doctor": "latest",
     });
   });
 
@@ -523,7 +523,7 @@ describe("runInstallReactDoctor", () => {
     writeValidSkill(fixture.sourceDir);
     writePackageJson(fixture.projectRoot, {
       devDependencies: {
-        "react-doctor": "^1.2.3",
+        "react-convex-doctor": "^1.2.3",
       },
       scripts: {},
     });
@@ -537,10 +537,10 @@ describe("runInstallReactDoctor", () => {
     });
 
     expect(readFixturePackageJson(fixture.projectRoot).scripts).toEqual({
-      doctor: "npx react-doctor@latest",
+      doctor: "npx react-convex-doctor@latest",
     });
     expect(readFixturePackageJson(fixture.projectRoot).devDependencies).toEqual({
-      "react-doctor": "^1.2.3",
+      "react-convex-doctor": "^1.2.3",
     });
   });
 
@@ -557,7 +557,7 @@ describe("runInstallReactDoctor", () => {
     });
 
     expect(
-      fs.existsSync(path.join(fixture.projectRoot, ".agents/skills/react-doctor/SKILL.md")),
+      fs.existsSync(path.join(fixture.projectRoot, ".agents/skills/react-convex-doctor/SKILL.md")),
     ).toBe(true);
     expect(fs.readFileSync(path.join(fixture.projectRoot, "package.json"), "utf8")).toBe(
       "{ invalid json",
@@ -573,7 +573,7 @@ describe("runInstallReactDoctor", () => {
       detectedAgents: ["cursor"],
     });
     expect(
-      fs.existsSync(path.join(fixture.projectRoot, ".agents/skills/react-doctor/SKILL.md")),
+      fs.existsSync(path.join(fixture.projectRoot, ".agents/skills/react-convex-doctor/SKILL.md")),
     ).toBe(true);
   });
 
@@ -586,7 +586,7 @@ describe("runInstallReactDoctor", () => {
       detectedAgents: ["claude-code"],
     });
     expect(
-      fs.existsSync(path.join(fixture.projectRoot, ".claude/skills/react-doctor/SKILL.md")),
+      fs.existsSync(path.join(fixture.projectRoot, ".claude/skills/react-convex-doctor/SKILL.md")),
     ).toBe(true);
   });
 
@@ -599,7 +599,7 @@ describe("runInstallReactDoctor", () => {
       detectedAgents: ["droid"],
     });
     expect(
-      fs.existsSync(path.join(fixture.projectRoot, ".factory/skills/react-doctor/SKILL.md")),
+      fs.existsSync(path.join(fixture.projectRoot, ".factory/skills/react-convex-doctor/SKILL.md")),
     ).toBe(true);
   });
 
@@ -616,9 +616,11 @@ describe("runInstallReactDoctor", () => {
     });
 
     expect(
-      fs.existsSync(path.join(fixture.projectRoot, ".agents/skills/react-doctor/SKILL.md")),
+      fs.existsSync(path.join(fixture.projectRoot, ".agents/skills/react-convex-doctor/SKILL.md")),
     ).toBe(true);
-    expect(fs.readFileSync(hookPath, "utf8")).toContain("react-doctor --staged --blocking warning");
+    expect(fs.readFileSync(hookPath, "utf8")).toContain(
+      "react-convex-doctor --staged --blocking warning",
+    );
     expect(fs.existsSync(path.join(fixture.projectRoot, ".react-doctor/hooks/pre-commit"))).toBe(
       false,
     );
@@ -637,10 +639,10 @@ describe("runInstallReactDoctor", () => {
     });
 
     expect(
-      fs.existsSync(path.join(fixture.projectRoot, ".agents/skills/react-doctor/SKILL.md")),
+      fs.existsSync(path.join(fixture.projectRoot, ".agents/skills/react-convex-doctor/SKILL.md")),
     ).toBe(true);
     expect(
-      fs.existsSync(path.join(fixture.projectRoot, ".claude/skills/react-doctor/SKILL.md")),
+      fs.existsSync(path.join(fixture.projectRoot, ".claude/skills/react-convex-doctor/SKILL.md")),
     ).toBe(true);
     expect(
       fs.readFileSync(path.join(fixture.projectRoot, ".claude/settings.json"), "utf8"),
@@ -666,19 +668,18 @@ describe("runInstallReactDoctor", () => {
       promptQuestions,
     });
 
-    expect(promptQuestions).toHaveLength(3);
-    // CI is asked first, as its own dedicated question (the shared pitch).
-    expect(promptQuestions[0]).toEqual(
-      expect.objectContaining({ type: "select", name: "ciChoice" }),
-    );
-    expect(promptQuestions[2]).toEqual(
+    // FORK: no CI workflow pitch (no published action), so only the agent
+    // selection and the setup multiselect remain.
+    expect(promptQuestions).toHaveLength(2);
+    expect(promptQuestions).not.toContainEqual(expect.objectContaining({ name: "ciChoice" }));
+    expect(promptQuestions[1]).toEqual(
       expect.objectContaining({
         type: "multiselect",
         name: "setupOptions",
         message: "Select additional React Doctor setup:",
       }),
     );
-    expect(promptQuestions[2]).toEqual(
+    expect(promptQuestions[1]).toEqual(
       expect.objectContaining({
         choices: expect.arrayContaining([
           expect.objectContaining({ value: "skip" }),
@@ -689,18 +690,7 @@ describe("runInstallReactDoctor", () => {
     );
     expect(fs.existsSync(hookPath)).toBe(false);
     expect(fs.existsSync(path.join(fixture.projectRoot, ".cursor/hooks.json"))).toBe(false);
-    const workflowContent = fs.readFileSync(workflowPath, "utf8");
-    expect(workflowContent).toContain("name: React Doctor");
-    expect(workflowContent).toContain("pull-requests: write");
-    expect(workflowContent).toContain("issues: write");
-    expect(workflowContent).toContain("statuses: write");
-    expect(workflowContent).toContain("actions/checkout@v5");
-    expect(workflowContent).toContain("millionco/react-doctor@v2");
-    expect(workflowContent).toContain("Advisory by default");
-    expect(workflowContent).toContain("#   blocking: error");
-    expect(workflowContent).not.toContain("\n        with:\n");
-    expect(workflowContent).not.toContain("github-token");
-    expect(workflowContent).not.toContain("diff: main");
+    expect(fs.existsSync(workflowPath)).toBe(false);
   });
 
   it("skips optional setup when only the skip option is selected", async () => {
@@ -736,7 +726,8 @@ describe("runInstallReactDoctor", () => {
 
     expect(fs.existsSync(hookPath)).toBe(false);
     expect(fs.existsSync(path.join(fixture.projectRoot, ".cursor/hooks.json"))).toBe(false);
-    expect(fs.readFileSync(workflowPath, "utf8")).toContain("millionco/react-doctor@v2");
+    // FORK: the workflow option is inert — no published action to install.
+    expect(fs.existsSync(workflowPath)).toBe(false);
   });
 
   it("--yes does not install native agent hooks unless --agent-hooks is set", async () => {
@@ -751,10 +742,10 @@ describe("runInstallReactDoctor", () => {
     });
 
     expect(
-      fs.existsSync(path.join(fixture.projectRoot, ".agents/skills/react-doctor/SKILL.md")),
+      fs.existsSync(path.join(fixture.projectRoot, ".agents/skills/react-convex-doctor/SKILL.md")),
     ).toBe(true);
     expect(
-      fs.existsSync(path.join(fixture.projectRoot, ".claude/skills/react-doctor/SKILL.md")),
+      fs.existsSync(path.join(fixture.projectRoot, ".claude/skills/react-convex-doctor/SKILL.md")),
     ).toBe(true);
     expect(fs.existsSync(path.join(fixture.projectRoot, ".cursor/hooks.json"))).toBe(false);
     expect(fs.existsSync(path.join(fixture.projectRoot, ".claude/settings.json"))).toBe(false);
@@ -778,7 +769,7 @@ describe("runInstallReactDoctor", () => {
 
     expect(
       fs.readFileSync(path.join(fixture.projectRoot, ".git/hooks/pre-commit"), "utf8"),
-    ).toContain("react-doctor --staged --blocking warning");
+    ).toContain("react-convex-doctor --staged --blocking warning");
     expect(fs.existsSync(path.join(fixture.projectRoot, ".react-doctor/hooks/pre-commit"))).toBe(
       false,
     );
@@ -790,7 +781,7 @@ describe("runInstallReactDoctor", () => {
     ).toContain("PostToolBatch");
   });
 
-  it("--yes upgrades an existing @v1 workflow to @v2 in place", async () => {
+  it("--yes leaves an existing @v1 workflow untouched (fork has no published action)", async () => {
     writeValidSkill(fixture.sourceDir);
     writePackageJson(fixture.projectRoot, { scripts: {} });
     const workflowPath = writeExistingWorkflow(fixture.projectRoot, "millionco/react-doctor@v1");
@@ -804,8 +795,8 @@ describe("runInstallReactDoctor", () => {
     });
 
     const workflowContent = fs.readFileSync(workflowPath, "utf8");
-    expect(workflowContent).toContain("millionco/react-doctor@v2");
-    expect(workflowContent).not.toContain("millionco/react-doctor@v1");
+    expect(workflowContent).toContain("millionco/react-doctor@v1");
+    expect(workflowContent).not.toContain("millionco/react-doctor@v2");
   });
 
   it("--yes leaves an exactly-pinned workflow untouched", async () => {
@@ -845,7 +836,7 @@ describe("runInstallReactDoctor", () => {
     expect(fs.readFileSync(workflowPath, "utf8")).toBe(originalContent);
   });
 
-  it("interactively upgrades an existing @v1 workflow when the offer is accepted", async () => {
+  it("interactively makes no upgrade offer for an existing @v1 workflow", async () => {
     writeValidSkill(fixture.sourceDir);
     writePackageJson(fixture.projectRoot, { scripts: {} });
     const hookPath = path.join(fixture.projectRoot, ".git/hooks/pre-commit");
@@ -860,11 +851,10 @@ describe("runInstallReactDoctor", () => {
       promptQuestions,
     });
 
-    // The upgrade prompt replaces the "add" prompt when a workflow exists.
-    expect(promptQuestions[0]).toEqual(
-      expect.objectContaining({ type: "select", name: "upgradeChoice" }),
-    );
-    expect(fs.readFileSync(workflowPath, "utf8")).toContain("millionco/react-doctor@v2");
+    // FORK: no upgrade offer — the @v1 action is upstream's and there is no
+    // fork-owned @v2 to move to.
+    expect(promptQuestions).not.toContainEqual(expect.objectContaining({ name: "upgradeChoice" }));
+    expect(fs.readFileSync(workflowPath, "utf8")).toContain("millionco/react-doctor@v1");
   });
 
   it("interactively keeps an existing @v1 workflow when the offer is declined", async () => {
@@ -941,7 +931,7 @@ describe("runInstallReactDoctor", () => {
     });
 
     expect(
-      fs.existsSync(path.join(fixture.projectRoot, ".agents/skills/react-doctor/SKILL.md")),
+      fs.existsSync(path.join(fixture.projectRoot, ".agents/skills/react-convex-doctor/SKILL.md")),
     ).toBe(true);
     expect(fs.readFileSync(path.join(fixture.projectRoot, ".cursor/hooks.json"), "utf8")).toContain(
       "postToolUse",

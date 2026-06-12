@@ -937,7 +937,7 @@ const finalizeAndRender = (input: FinalizeInput): Effect.Effect<InspectResult> =
     if (options.categoryFilters.size === 0 && demotedDiagnosticCount > 0) {
       yield* Console.log(
         highlighter.gray(
-          `  ${demotedDiagnosticCount} demoted from the ${options.outputSurface} surface (e.g. design cleanup) — run \`npx react-doctor@latest .\` locally for the full list.`,
+          `  ${demotedDiagnosticCount} demoted from the ${options.outputSurface} surface (e.g. design cleanup) — run \`npx react-convex-doctor@latest .\` locally for the full list.`,
         ),
       );
       yield* Console.log("");

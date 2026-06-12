@@ -39,7 +39,7 @@ const assertSkillManifestParseable = (manifestPath: string): void => {
 const copySkillsToDist = () => {
   const skillsRoot = path.resolve(packageRoot, "../../skills");
   const distSkillsRoot = path.resolve(packageRoot, "dist/skills");
-  const primarySkillSource = path.join(skillsRoot, "react-doctor");
+  const primarySkillSource = path.join(skillsRoot, "react-convex-doctor");
   if (!fs.existsSync(primarySkillSource)) {
     throw new Error(`Skill source missing at ${primarySkillSource}; expected to ship dist/skills/`);
   }

@@ -57,15 +57,15 @@ const formatExampleLines = (
 const renderRootHelpEpilog = (): string => `
 ${highlighter.dim("Examples:")}
 ${formatExampleLines([
-  ["react-doctor", "scan the current project"],
-  ["react-doctor ./apps/web", "scan a specific directory"],
-  ["react-doctor --diff main", "scan only files changed vs. main"],
-  ["react-doctor --staged", "scan staged files (pre-commit hook)"],
-  ["react-doctor --category Security", "show only one diagnostic category"],
-  ["react-doctor --blocking warning", "fail CI on warnings too (default: error)"],
-  ["react-doctor --json > report.json", "write a machine-readable report"],
-  ["react-doctor why src/App.tsx:42", "explain why a rule fired there"],
-  ["react-doctor install", "set up the agent skill and git hook"],
+  ["react-convex-doctor", "scan the current project"],
+  ["react-convex-doctor ./apps/web", "scan a specific directory"],
+  ["react-convex-doctor --diff main", "scan only files changed vs. main"],
+  ["react-convex-doctor --staged", "scan staged files (pre-commit hook)"],
+  ["react-convex-doctor --category Security", "show only one diagnostic category"],
+  ["react-convex-doctor --blocking warning", "fail CI on warnings too (default: error)"],
+  ["react-convex-doctor --json > report.json", "write a machine-readable report"],
+  ["react-convex-doctor why src/App.tsx:42", "explain why a rule fired there"],
+  ["react-convex-doctor install", "set up the agent skill and git hook"],
 ])}
 
 ${highlighter.dim("Configuration:")}
@@ -82,10 +82,10 @@ ${highlighter.dim("Learn more:")}
 const renderInstallHelpEpilog = (): string => `
 ${highlighter.dim("Examples:")}
 ${formatExampleLines([
-  ["react-doctor install", "interactive setup"],
-  ["react-doctor install --yes", "non-interactive; all detected agents"],
-  ["react-doctor install --dry-run", "preview without writing files"],
-  ["react-doctor install --agent-hooks", "also install native agent hooks"],
+  ["react-convex-doctor install", "interactive setup"],
+  ["react-convex-doctor install --yes", "non-interactive; all detected agents"],
+  ["react-convex-doctor install --dry-run", "preview without writing files"],
+  ["react-convex-doctor install --agent-hooks", "also install native agent hooks"],
 ])}
 
 ${highlighter.dim("Learn more:")}
@@ -98,7 +98,7 @@ const collectCategoryOption = (value: string, previousValues: string[] | undefin
 ];
 
 const program = new Command()
-  .name("react-doctor")
+  .name("react-convex-doctor")
   .description("Diagnose React codebase health")
   .version(VERSION, "-v, --version", "display the version number")
   .argument("[directory]", "project directory to scan", ".")

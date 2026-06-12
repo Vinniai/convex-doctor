@@ -38,7 +38,7 @@ const setupFixture = (): AgentHooksFixture => {
 const readJson = <Value>(filePath: string): Value => JSON.parse(fs.readFileSync(filePath, "utf8"));
 
 const writeFakeReactDoctorBinary = (projectRoot: string, options: FakeBinaryOptions): void => {
-  const localBinaryPath = path.join(projectRoot, "node_modules/.bin/react-doctor");
+  const localBinaryPath = path.join(projectRoot, "node_modules/.bin/react-convex-doctor");
   fs.mkdirSync(path.dirname(localBinaryPath), { recursive: true });
   const output = options.output ?? "fake scan output";
   const invocationFileName = options.invocationFileName ?? "agent-hook-args.txt";
@@ -64,7 +64,7 @@ const writeFakePathReactDoctorBinary = (
   fs.mkdirSync(binDirectory, { recursive: true });
   const output = options.output ?? "fake scan output";
   const invocationFileName = options.invocationFileName ?? "path-agent-hook-args.txt";
-  const binaryPath = path.join(binDirectory, "react-doctor");
+  const binaryPath = path.join(binDirectory, "react-convex-doctor");
   fs.writeFileSync(
     binaryPath,
     [
@@ -131,7 +131,7 @@ describe.skipIf(process.platform === "win32")("installReactDoctorAgentHooks", ()
     expect(settings.permissions.allow).toEqual(["Bash(git status)"]);
     expect(hookCommands.filter((command) => command.includes("react-doctor.sh"))).toHaveLength(1);
     expect(hookContent).toContain("project_root=${CLAUDE_PROJECT_DIR:-}");
-    expect(hookContent).toContain("react-doctor --verbose --diff --blocking warning");
+    expect(hookContent).toContain("react-convex-doctor --verbose --diff --blocking warning");
     expect(Boolean(fs.statSync(hookPath).mode & fs.constants.S_IXUSR)).toBe(true);
   });
 

@@ -282,7 +282,7 @@ const buildDependencyFollowUp = (
   }
   const installCommand =
     result.installCommand ?? `npm install --save-dev ${DOCTOR_PACKAGE_NAME}@latest`;
-  return `  React Doctor still works via \`npx react-doctor\`. To install locally: ${installCommand}`;
+  return `  React Convex Doctor still works via \`npx react-convex-doctor\`. To install locally: ${installCommand}`;
 };
 
 export const installReactDoctorPackageSetup = async (
@@ -519,13 +519,20 @@ export const runInstallReactDoctor = async (
   // A present-but-unreadable workflow also reads back as `null`; gate the "add"
   // offer on existence so we never pitch installing over a file that's already
   // there (and can't be upgraded either, since we couldn't read its contents).
-  const canInstallWorkflow = !fs.existsSync(workflowTargetPath);
+  // FORK: there is no published GitHub Action for react-convex-doctor
+  // (`millionco/react-doctor@v2` belongs to upstream), so never offer to
+  // install or upgrade the CI workflow. CI users run
+  // `npx react-convex-doctor@latest` directly in their own workflow.
+  // Restore the two computations below if a fork-owned action ships.
+  const forkHasCiAction = false;
+  const canInstallWorkflow = forkHasCiAction && !fs.existsSync(workflowTargetPath);
   // Mirror the post-scan handoff's `maybeOfferActionUpgrade`: the `@v1` → `@v2`
   // bump is a one-time, per-repo offer. Once it's been answered (accepted OR
   // declined), `hasHandledActionUpgrade` suppresses it here too — so `install`
   // never re-prompts, and `--yes` never silently re-applies an already-declined
   // bump.
   const canUpgradeWorkflow =
+    forkHasCiAction &&
     existingWorkflow !== null &&
     workflowUsesV1Action(existingWorkflow.content) &&
     !hasHandledActionUpgrade(projectRoot);
@@ -695,8 +702,8 @@ export const runInstallReactDoctor = async (
       logger.dim(`  - ${getSkillAgentConfig(agent).displayName}`);
     }
     logger.dim(`  Source: ${sourceDir}`);
-    logger.dim("  Package script: doctor (or react-doctor if doctor exists)");
-    logger.dim("  Dev dependency: react-doctor");
+    logger.dim("  Package script: doctor (or react-convex-doctor if doctor exists)");
+    logger.dim("  Dev dependency: react-convex-doctor");
     if (shouldInstallGitHook) {
       logger.dim(`  Git hook: ${gitHookPath}`);
     }

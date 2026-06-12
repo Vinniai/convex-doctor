@@ -39,7 +39,7 @@ describe("handleError", () => {
     const body = issueUrl.searchParams.get("body") ?? "";
 
     expect(issueUrl.origin + issueUrl.pathname).toBe(
-      "https://github.com/millionco/react-doctor/issues/new",
+      "https://github.com/Vinniai/convex-doctor/issues/new",
     );
     expect(issueUrl.searchParams.get("title")).toBe("CLI error: boom");
     expect(issueUrl.searchParams.get("labels")).toBe("bug");
@@ -92,7 +92,7 @@ describe("handleError", () => {
     }
 
     expect(errorMessages.join("\n")).toContain(
-      "You can also ask for help in Discord: https://react.doctor/discord",
+      "You can also open an issue: https://github.com/Vinniai/convex-doctor/issues",
     );
     expect(process.exitCode).toBe(1);
   });
