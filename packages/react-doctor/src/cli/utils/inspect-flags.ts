@@ -8,6 +8,7 @@ export interface InspectFlags {
   verbose?: boolean;
   score?: boolean;
   localScore?: boolean;
+  reactRules?: boolean;
   json?: boolean;
   jsonCompact?: boolean;
   telemetry?: boolean;

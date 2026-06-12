@@ -25,6 +25,11 @@ interface RunOxlintOptions {
   includePaths?: string[];
   nodeBinaryPath?: string;
   customRulesOnly?: boolean;
+  /**
+   * Per-call override for `ReactDoctorConfig.reactRules` (CLI
+   * `--react-rules`). `undefined` defers to `userConfig.reactRules`.
+   */
+  reactRules?: boolean;
   respectInlineDisables?: boolean;
   adoptExistingLintConfig?: boolean;
   ignoredTags?: ReadonlySet<string>;
@@ -120,6 +125,7 @@ export const runOxlint = async (options: RunOxlintOptions): Promise<Diagnostic[]
     includePaths,
     nodeBinaryPath = process.execPath,
     customRulesOnly = false,
+    reactRules,
     respectInlineDisables = true,
     adoptExistingLintConfig = true,
     ignoredTags = new Set<string>(),
@@ -169,7 +175,7 @@ export const runOxlint = async (options: RunOxlintOptions): Promise<Diagnostic[]
       pluginPath,
       project,
       customRulesOnly,
-      reactRules: userConfig?.reactRules === true,
+      reactRules: reactRules ?? userConfig?.reactRules === true,
       extendsPaths: extendsForThisAttempt,
       ignoredTags,
       serverAuthFunctionNames,

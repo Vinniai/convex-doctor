@@ -266,6 +266,7 @@ export const buildScanResultCacheKey = (input: ScanResultCacheKeyInput): string 
       // `changedLineRanges` above) so pre-existing cache entries and
       // callers that never set the flag keep matching.
       localScore: input.options.localScore === true ? true : undefined,
+      reactRules: input.options.reactRules === true ? true : undefined,
       isCi: input.options.isCi,
       suppressRendering: input.options.suppressRendering,
       supplyChainManifestChanged: input.options.supplyChainManifestChanged,

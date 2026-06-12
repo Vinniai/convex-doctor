@@ -46,6 +46,8 @@ export const resolveCliInspectOptions = (
     // forces it on; `localScore: false` in config opts back into the
     // hosted score API.
     localScore: flags.localScore ?? userConfig?.localScore ?? true,
+    // `undefined` defers to `userConfig.reactRules` inside inspect().
+    reactRules: flags.reactRules,
     isCi: isCiEnvironment(),
     silent: Boolean(flags.json),
     concurrency: resolveParallelFlag(flags.parallel),

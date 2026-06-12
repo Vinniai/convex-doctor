@@ -144,6 +144,10 @@ const program = new Command()
   )
   .option("--no-score", "skip the score API, the share URL, and crash reporting")
   .option(
+    "--react-rules",
+    "also run the full React rule set on a Convex project (default: Convex-first, React rules off)",
+  )
+  .option(
     "--local-score",
     "compute the score locally instead of via the score API (fully offline; no share URL or crash reporting)",
   )

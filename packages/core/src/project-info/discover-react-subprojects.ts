@@ -5,7 +5,7 @@ import { isDirectory } from "./utils/is-directory.js";
 import { isFile } from "./utils/is-file.js";
 import { readDirectoryEntries } from "./utils/read-directory-entries.js";
 import { getNxWorkspaceDirectories } from "./get-nx-workspace-directories.js";
-import { hasReactDependency } from "./has-react-dependency.js";
+import { isDiscoverableSubproject } from "./has-convex-dependency.js";
 import { listWorkspacePackages } from "./list-workspace-packages.js";
 import { parsePnpmWorkspacePatterns } from "./parse-pnpm-workspace-patterns.js";
 import { readPackageJson } from "./read-package-json.js";
@@ -19,7 +19,7 @@ const toReactWorkspacePackages = (directories: string[]): WorkspacePackage[] => 
     if (!isFile(packageJsonPath)) continue;
 
     const packageJson: PackageJson = readPackageJson(packageJsonPath);
-    if (!hasReactDependency(packageJson)) continue;
+    if (!isDiscoverableSubproject(packageJson)) continue;
 
     const name = packageJson.name ?? path.basename(directory);
     packages.push({ name, directory });
@@ -79,7 +79,7 @@ const discoverReactSubprojectsByFilesystem = (rootDirectory: string): WorkspaceP
     const packageJsonPath = path.join(currentDirectory, "package.json");
     if (isFile(packageJsonPath)) {
       const packageJson = readPackageJson(packageJsonPath);
-      if (hasReactDependency(packageJson)) {
+      if (isDiscoverableSubproject(packageJson)) {
         const name = packageJson.name ?? path.basename(currentDirectory);
         packages.push({ name, directory: currentDirectory });
       }

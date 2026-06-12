@@ -67,7 +67,8 @@ for real output and a scoreboard of all 21 official Convex templates
 npx react-convex-doctor .
 
 # Convex + React together (full react-doctor rule set on the client code)
-echo '{"reactRules": true}' > react-doctor.config.json
+npx react-convex-doctor . --react-rules
+# (or persist it: echo '{"reactRules": true}' > react-doctor.config.json)
 
 # React only — every convex rule carries the "convex" tag
 echo '{"reactRules": true, "ignore": {"tags": ["convex"]}}' > react-doctor.config.json

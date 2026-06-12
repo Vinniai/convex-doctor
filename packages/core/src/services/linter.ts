@@ -32,6 +32,8 @@ export interface LintInput {
   readonly project: ProjectInfo;
   readonly includePaths?: ReadonlyArray<string>;
   readonly customRulesOnly?: boolean;
+  /** Per-call override for `ReactDoctorConfig.reactRules`. */
+  readonly reactRules?: boolean;
   readonly respectInlineDisables?: boolean;
   readonly adoptExistingLintConfig?: boolean;
   readonly ignoredTags?: ReadonlySet<string>;
@@ -115,6 +117,7 @@ export class Linter extends Context.Service<
                   includePaths: input.includePaths ? [...input.includePaths] : undefined,
                   nodeBinaryPath: input.nodeBinaryPath,
                   customRulesOnly: input.customRulesOnly,
+                  reactRules: input.reactRules,
                   respectInlineDisables: input.respectInlineDisables,
                   adoptExistingLintConfig: input.adoptExistingLintConfig,
                   ignoredTags: input.ignoredTags,

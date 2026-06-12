@@ -2,7 +2,7 @@ import * as path from "node:path";
 import type { WorkspacePackage } from "../types/index.js";
 import { isFile } from "./utils/is-file.js";
 import { getWorkspacePatterns } from "./get-workspace-patterns.js";
-import { hasReactDependency } from "./has-react-dependency.js";
+import { isDiscoverableSubproject } from "./has-convex-dependency.js";
 import { readPackageJson } from "./read-package-json.js";
 import { resolveWorkspaceDirectories } from "./resolve-workspace-directories.js";
 
@@ -29,7 +29,7 @@ export const listWorkspacePackages = (rootDirectory: string): WorkspacePackage[]
     packages.push(workspacePackage);
   };
 
-  if (hasReactDependency(packageJson)) {
+  if (isDiscoverableSubproject(packageJson)) {
     const rootName = packageJson.name ?? path.basename(rootDirectory);
     pushIfNew({ name: rootName, directory: rootDirectory });
   }
@@ -39,7 +39,7 @@ export const listWorkspacePackages = (rootDirectory: string): WorkspacePackage[]
     for (const workspaceDirectory of directories) {
       const workspacePackageJson = readPackageJson(path.join(workspaceDirectory, "package.json"));
 
-      if (!hasReactDependency(workspacePackageJson)) continue;
+      if (!isDiscoverableSubproject(workspacePackageJson)) continue;
 
       const name = workspacePackageJson.name ?? path.basename(workspaceDirectory);
       pushIfNew({ name, directory: workspaceDirectory });

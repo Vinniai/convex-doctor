@@ -8,6 +8,7 @@ export {
 export { clearPackageJsonCache, readPackageJson } from "./read-package-json.js";
 export { resolveEffectiveReactMajor } from "./resolve-effective-react-major.js";
 export { isAnalyzableProject } from "./is-analyzable-project.js";
+export { hasConvexDependency, isDiscoverableSubproject } from "./has-convex-dependency.js";
 export { parseReactMajor } from "./parse-react-major.js";
 export { parseZodMajor } from "./parse-zod-major.js";
 export { parseReactMajorMinor, isReactAtLeast } from "./parse-react-major-minor.js";

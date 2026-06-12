@@ -142,6 +142,12 @@ export interface InspectOptions {
    */
   localScore?: boolean;
   /**
+   * Re-enable the React-runtime rule families on a Convex project for
+   * this run (the CLI `--react-rules` flag). `undefined` defers to
+   * `ReactDoctorConfig.reactRules` (default `false`: Convex-first).
+   */
+  reactRules?: boolean;
+  /**
    * Marks the run as CI-originated. Suppresses the share URL in the
    * printed summary; does not imply `--no-score`.
    */

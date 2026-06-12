@@ -49,6 +49,11 @@ export interface InspectInput {
   readonly directory: string;
   readonly includePaths: ReadonlyArray<string>;
   readonly customRulesOnly: boolean;
+  /**
+   * Per-call override for `ReactDoctorConfig.reactRules` (the CLI
+   * `--react-rules` flag). `undefined` defers to the loaded config.
+   */
+  readonly reactRules?: boolean;
   readonly respectInlineDisables: boolean;
   /**
    * Per-call override for `ReactDoctorConfig.warnings`. When omitted,
@@ -403,6 +408,7 @@ export const runInspect = <HooksR = never>(
         includePaths: lintIncludePaths ?? undefined,
         nodeBinaryPath: input.nodeBinaryPath,
         customRulesOnly: input.customRulesOnly,
+        reactRules: input.reactRules,
         respectInlineDisables: input.respectInlineDisables,
         adoptExistingLintConfig: input.adoptExistingLintConfig,
         ignoredTags: input.ignoredTags,

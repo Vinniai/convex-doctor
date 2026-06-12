@@ -149,6 +149,8 @@ export interface ResolvedInspectOptions {
   silent: boolean;
   includePaths: string[];
   customRulesOnly: boolean;
+  /** Per-run override of `ReactDoctorConfig.reactRules` (CLI `--react-rules`). */
+  reactRules: boolean;
   share: boolean;
   respectInlineDisables: boolean;
   warnings: boolean;
@@ -198,6 +200,7 @@ const mergeInspectOptions = (
   silent: inputOptions.silent ?? false,
   includePaths: inputOptions.includePaths ?? [],
   customRulesOnly: userConfig?.customRulesOnly ?? false,
+  reactRules: inputOptions.reactRules ?? userConfig?.reactRules ?? false,
   share: userConfig?.share ?? true,
   respectInlineDisables:
     inputOptions.respectInlineDisables ?? userConfig?.respectInlineDisables ?? true,
@@ -530,6 +533,7 @@ const runInspectWithRuntime = async (
       directory,
       includePaths: options.includePaths,
       customRulesOnly: options.customRulesOnly,
+      reactRules: options.reactRules,
       respectInlineDisables: options.respectInlineDisables,
       warnings: options.warnings,
       adoptExistingLintConfig: options.adoptExistingLintConfig,
@@ -966,6 +970,18 @@ const finalizeAndRender = (input: FinalizeInput): Effect.Effect<InspectResult> =
       yield* Console.log("");
       yield* Console.warn(
         highlighter.warn(`  Note: ${skippedLabel} checks failed — score may be incomplete.`),
+      );
+    }
+
+    // Convex-first mode is easy to misread as "missing findings" when
+    // comparing against upstream react-doctor — say so explicitly.
+    if (project.convexVersion !== null && !options.reactRules && options.lint) {
+      yield* Console.log("");
+      yield* Console.log(
+        highlighter.dim(
+          "  Convex-first mode: React-runtime rules are off. Re-run with --react-rules" +
+            ' (or set {"reactRules": true} in react-doctor.config.json) to scan the React client code too.',
+        ),
       );
     }
 
